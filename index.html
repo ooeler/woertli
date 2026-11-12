@@ -1,0 +1,1573 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Englisch-Wörtli lernen: anschauen, hören, schreiben, Sätze und Test.">
+<meta name="theme-color" content="#1747a6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Wörtli">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>
+/* Grundeinstellungen (wie in der Claude-Vorschau) */
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0}
+body{font:14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>Wörtli üben</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Playpen+Sans:wght@400;500&family=Nunito:wght@500;700;800&display=swap">
+<style>
+/* Layout: one column like a school notebook page; the word sits on ruled paper, practice modes and steps run across the top. */
+:root{
+  --bg:#eaf3fc;
+  --paper:#ffffff;
+  --rule:#d3e4f7;
+  --margin:#9cc3ef;
+  --ink:#1747a6;        /* Blau für Titel und Knöpfe */
+  --fg:#13284a;
+  --muted:#4f6890;
+  --line:#c0d6f0;
+  --ok:#1d5fd1;
+  --ok-bg:#e0edff;
+  --grad-a:#0b2a6f;     /* Verlauf: Dunkelblau … */
+  --grad-b:#4aa8ff;     /* … zu Hellblau */
+  --title:#000000;      /* Titel schwarz */
+  --shadow:0 10px 30px rgba(23,71,166,.10), 0 2px 6px rgba(23,71,166,.06);
+  --btn-shadow:0 6px 16px rgba(11,42,111,.25);
+  --grass-a:#9ed98a;    /* Wiese vorne */
+  --grass-b:#c4ebb0;    /* Wiese hinten */
+  --grass-d:#5fae4c;    /* Grashalme */
+  --cow-line:#2a2a2a;   /* Kuh: Umriss und Flecken */
+  --meadow-opacity:1;
+  --photo-veil:rgba(255,255,255,0);   /* Foto hell: kein Schleier */
+  --glass:rgba(255,255,255,.84);      /* Milchglas über dem Foto */
+  --mtn-far:#bcd0ec;    /* Berge hinten */
+  --mtn-near:#93afd6;   /* Berge vorne */
+  --snow:#ffffff;
+  --fir:#3f7f4a;
+  --bad:#c62828;
+  --bad-bg:#fdeaea;
+  --btn:#1747a6;
+  --btn-fg:#ffffff;
+  --soft:#dbe9fa;
+  --word:#2b6fd6;       /* Blau für alle Wörter (wo kein Verlauf möglich ist) */
+  --f-word:"Playpen Sans", "Andika", "Comic Sans MS", system-ui, sans-serif;
+  --f-ui:"Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1426; --paper:#131e36; --rule:#1e2c4a; --margin:#2c4a7a;
+    --ink:#8cc4ff; --fg:#e4eefc; --muted:#9db3d6; --line:#28395c;
+    --ok:#8cc4ff; --ok-bg:#1a2c4f; --bad:#ff7b7b; --bad-bg:#3a1c22;
+    --btn:#8cc4ff; --btn-fg:#0b1426; --soft:#1b2a48; --word:#7cc0ff;
+    --grad-a:#3d7bff; --grad-b:#a8dcff; --title:#ffffff; color-scheme:dark;
+    --shadow:0 10px 30px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.25); --btn-shadow:0 6px 16px rgba(0,0,0,.4);
+    --grass-a:#2f5a3a; --grass-b:#24452f; --grass-d:#4c8a55; --cow-line:#1a1a1a; --meadow-opacity:.75;
+    --mtn-far:#2c3b5c; --mtn-near:#23314e; --snow:#c9d6ea; --fir:#2a5535; --photo-veil:rgba(8,14,30,.2); --glass:rgba(19,30,54,.84);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1426; --paper:#131e36; --rule:#1e2c4a; --margin:#2c4a7a;
+  --ink:#8cc4ff; --fg:#e4eefc; --muted:#9db3d6; --line:#28395c;
+  --ok:#8cc4ff; --ok-bg:#1a2c4f; --bad:#ff7b7b; --bad-bg:#3a1c22;
+  --btn:#8cc4ff; --btn-fg:#0b1426; --soft:#1b2a48; --word:#7cc0ff;
+  --grad-a:#3d7bff; --grad-b:#a8dcff; --title:#ffffff; color-scheme:dark;
+    --shadow:0 10px 30px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.25); --btn-shadow:0 6px 16px rgba(0,0,0,.4);
+    --grass-a:#2f5a3a; --grass-b:#24452f; --grass-d:#4c8a55; --cow-line:#1a1a1a; --meadow-opacity:.75;
+    --mtn-far:#2c3b5c; --mtn-near:#23314e; --snow:#c9d6ea; --fir:#2a5535; --photo-veil:rgba(8,14,30,.2); --glass:rgba(19,30,54,.84);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-ui);font-size:16px;line-height:1.5}
+.wrap{max-width:680px;margin:0 auto;padding-block:20px 48px;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  display:flex;flex-direction:column;gap:18px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-family:var(--f-word);font-size:1.9rem;margin:0;color:var(--ink);text-wrap:balance}
+.tabs{display:flex;gap:6px;background:var(--soft);padding:4px;border-radius:999px}
+.tabs button{border:0;background:transparent;color:var(--fg);font:700 0.95rem var(--f-ui);padding:8px 16px;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--paper);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+button:focus-visible, input:focus-visible, textarea:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.view{display:flex;flex-direction:column;gap:14px}
+
+/* modes */
+.modes{display:flex;gap:6px;flex-wrap:wrap}
+.modes button{border:2px solid var(--line);background:var(--paper);color:var(--fg);font:700 .9rem var(--f-ui);padding:6px 12px;border-radius:999px;cursor:pointer}
+.modes button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--btn-fg)}
+
+/* steps */
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
+.steps li{flex:1 1 120px;display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:var(--soft);color:var(--muted);font-weight:700;font-size:.9rem}
+.steps li .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--paper);color:var(--muted);font-size:.85rem;flex:none}
+.steps li.on{background:var(--ink);color:var(--btn-fg)}
+.steps li.on .n{color:var(--ink)}
+.steps li.done{color:var(--ok)}
+
+.progress{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-weight:700;font-size:.9rem;font-variant-numeric:tabular-nums}
+.bar{flex:1;height:8px;background:var(--soft);border-radius:999px;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+
+/* notebook card */
+.sheet{position:relative;border-radius:14px;border:1px solid var(--line);
+  padding:28px 22px 26px 46px;min-height:300px;display:flex;flex-direction:column;gap:18px;
+  background-image:linear-gradient(to right, transparent 32px, var(--margin) 32px, var(--margin) 34px, transparent 34px),
+    repeating-linear-gradient(to bottom, transparent 0 35px, var(--rule) 35px 36px);
+  background-color:var(--paper)}
+.prompt{font-weight:800;color:var(--muted);font-size:1rem;margin:0}
+.word{font-family:var(--f-word);font-weight:500;color:var(--word);font-size:clamp(2.3rem, 10vw, 4rem);
+  letter-spacing:.04em;line-height:1.3;overflow-wrap:anywhere;margin:0}
+.word.small{font-size:clamp(1.6rem, 7vw, 2.4rem)}
+.lang{display:inline-block;font:800 .75rem var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--soft);border-radius:6px;padding:2px 8px}
+.hidden-word{font-family:var(--f-word);font-size:clamp(2rem,9vw,3.4rem);color:var(--line);letter-spacing:.1em;margin:0}
+.field{display:flex;flex-direction:column;gap:2px}
+.field label{font-weight:800;color:var(--muted);font-size:.9rem}
+.entry{width:100%;font-family:var(--f-word);font-size:clamp(1.8rem, 8vw, 2.8rem);color:var(--fg);
+  background:transparent;border:0;border-bottom:3px solid var(--ink);padding:4px 2px;letter-spacing:.05em}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{border:0;border-radius:12px;padding:12px 20px;font:800 1rem var(--f-ui);cursor:pointer;background:var(--btn);color:var(--btn-fg);display:inline-flex;align-items:center;gap:8px}
+.btn.ghost{background:var(--soft);color:var(--fg)}
+.btn svg{width:20px;height:20px;flex:none}
+.say{border:0;background:var(--soft);color:var(--ink);border-radius:50%;width:44px;height:44px;display:inline-grid;place-items:center;cursor:pointer;flex:none}
+.say svg{width:22px;height:22px}
+.wordline{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hint{color:var(--muted);font-size:.9rem;margin:0}
+.msg{border-radius:12px;padding:12px 14px;font-weight:700}
+.msg.ok{background:var(--ok-bg);color:var(--ok)}
+.msg.bad{background:var(--bad-bg);color:var(--bad)}
+.msg.wait{background:var(--soft);color:var(--ink);margin:0}
+.cmp{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:baseline;margin:0}
+.cmp dt{color:var(--muted);font-weight:700;font-size:.9rem}
+.cmp dd{margin:0;font-family:var(--f-word);font-size:clamp(1.5rem,6vw,2.2rem);letter-spacing:.06em;overflow-wrap:anywhere;min-width:0}
+.cmp .right{color:var(--ink)}
+.cmp .good{color:var(--ok)}
+mark{background:var(--bad-bg);color:var(--bad);border-bottom:3px solid var(--bad);border-radius:3px}
+mark.gap{padding:0 .15em}
+.extra{color:var(--bad);text-decoration:line-through;background:var(--bad-bg);border-radius:3px}
+.part{display:flex;flex-direction:column;gap:6px}
+
+/* test */
+.pic{font-size:clamp(5rem, 24vw, 8rem);line-height:1.1;margin:0;font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif}
+.pic-sm{font-size:1.8rem;font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif}
+.score{display:flex;gap:28px;flex-wrap:wrap}
+.score .big{line-height:1}
+.part h3{margin:0;font-size:1.05rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.part h3 small{color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.review{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.review li{display:flex;gap:12px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-block:6px;font-family:var(--f-word);font-size:1.15rem}
+.review .q{min-width:7em;font-weight:700}
+.review .a{min-width:0;overflow-wrap:anywhere}
+.review .good{color:var(--ok)}
+.review .right{color:var(--ink)}
+.translation{margin:0;color:var(--muted);font-size:1.1rem;line-height:1.6;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.translation .lang{flex:none}
+.conj{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 16px;align-items:end;max-width:520px}
+.conj label{font-family:var(--f-word);font-size:1.3rem;font-weight:600;color:var(--muted);text-align:right;padding-bottom:6px}
+.entry.conj-in{font-size:clamp(1.3rem, 5vw, 1.7rem)}
+.sentence{font-family:var(--f-word);font-size:clamp(1.4rem, 5.5vw, 2rem);line-height:1.8;margin:0;color:var(--fg);overflow-wrap:anywhere}
+.sentence b, .meaning{background:linear-gradient(90deg, var(--grad-a), var(--grad-b));-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;font-weight:600}
+.sentence .gap{font-size:inherit}
+.cloze{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:14px;font-family:var(--f-word);font-size:1.25rem;line-height:1.9}
+.gap{font:inherit;color:var(--fg);background:var(--soft);border:0;border-bottom:3px solid var(--ink);border-radius:6px 6px 0 0;padding:0 6px;max-width:100%}
+.gap-hint{color:var(--muted);font-family:var(--f-ui);font-size:.85rem;font-weight:700}
+/* Farbverlauf Dunkelblau → Hellblau */
+h1{color:var(--title)}
+.word, .big{background:linear-gradient(90deg, var(--grad-a), var(--grad-b));-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;width:fit-content;max-width:100%}
+.btn:not(.ghost), .modes button[aria-pressed="true"], .steps li.on, .bar span, .tabs button[aria-selected="true"]{background-image:linear-gradient(90deg, var(--grad-a), var(--grad-b))}
+.modes button[aria-pressed="true"], .tabs button[aria-selected="true"]{color:#fff;border-color:var(--grad-a)}
+.steps li.on, .btn:not(.ghost){color:#fff}
+.sheet{border-image:none}
+/* alle Wörter: schöne Schrift */
+.entry, .gap, .cmp .right, .review .right, .results li, .stats .w, .cloze, textarea{color:var(--word)}
+.entry, .gap, .cloze, textarea{font-family:var(--f-word)}
+.modes button[data-m="test"]{border-style:none}
+/* kein Rahmen um angeklickte Knöpfe (nur bei Tastatur-Bedienung) */
+.modes button, .modes button:focus, .tabs button:focus{outline:none;border-style:none}
+.modes button:focus-visible, .tabs button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+button::-moz-focus-inner{border:0}
+.modes button[data-m="test"][aria-pressed="true"]{border-style:solid}
+/* result list */
+.results{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.results li{display:flex;justify-content:space-between;gap:10px;font-family:var(--f-word);font-size:1.3rem;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.results li small{font-family:var(--f-ui);font-weight:700;font-size:.85rem;color:var(--bad)}
+.big{font-family:var(--f-word);font-size:2.4rem;color:var(--ink);margin:0;font-variant-numeric:tabular-nums}
+
+/* list editor */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.panel h2{margin:0;font-size:1.15rem}
+.panel label{font-weight:700}
+textarea{width:100%;min-height:240px;font-family:var(--f-word);font-size:1.25rem;line-height:1.6;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg);resize:vertical}
+input[type=text].name{width:100%;font:700 1.05rem var(--f-ui);padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg)}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:600}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--ink);flex:none}
+.voice-row{display:flex;flex-direction:column;gap:6px}
+.sel{flex:1 1 220px;min-width:0;max-width:100%;font:600 1rem var(--f-ui);padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--fg)}
+input[type=range]{width:100%;max-width:360px;accent-color:var(--ink)}
+code{font-family:var(--f-word);background:var(--soft);padding:1px 6px;border-radius:5px}
+.stats{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.stats li{background:var(--bg);border-radius:10px;padding:8px 10px;display:flex;justify-content:space-between;gap:8px;align-items:center;min-width:0}
+.stats .w{font-family:var(--f-word);font-size:1.1rem;overflow-wrap:anywhere;min-width:0}
+.stats .w small{color:var(--muted)}
+.pill{font-size:.75rem;font-weight:800;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.pill.new{background:var(--soft);color:var(--muted)}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.example{font-size:.8rem;font-weight:800;color:var(--muted);background:var(--soft);padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle}
+/* ---------- Gestaltung ---------- */
+body{background:radial-gradient(900px 360px at 50% -120px, var(--soft), transparent 70%), var(--bg);background-attachment:fixed;min-height:100%}
+header{padding-block:4px 2px}
+h1{font-size:clamp(1.8rem, 6vw, 2.3rem);font-weight:600;letter-spacing:.01em}
+.tabs{background:var(--paper);box-shadow:var(--shadow)}
+.tabs button{transition:background .2s}
+/* Übungsknöpfe als ruhige Leiste, Test rechts für sich */
+.modes{background:var(--paper);padding:6px;border-radius:18px;box-shadow:var(--shadow);gap:4px}
+.modes button{border:0;background:transparent;padding:8px 14px;transition:background .2s, transform .15s}
+.modes button:hover{background:var(--soft)}
+.modes button[aria-pressed="true"]{box-shadow:var(--btn-shadow)}
+.modes button[data-m="test"]{margin-left:auto;border:0;color:var(--ink);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+.modes button[data-m="test"][aria-pressed="true"]{border:2px solid transparent;color:#fff}
+/* Schritte und Balken */
+.steps li{border-radius:999px;padding:7px 12px}
+.bar{height:10px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line)}
+.progress{padding-inline:4px}
+/* Heftblatt: weicher Schatten und blauer Streifen oben */
+.sheet{border:0;border-radius:22px;box-shadow:var(--shadow);padding-top:34px;overflow:hidden;
+  background-image:none;padding-left:28px;padding-right:28px}   /* ohne Heftlinien und Rand-Strich */
+.sheet::before{content:"";position:absolute;inset:0 0 auto 0;height:7px;background:linear-gradient(90deg, var(--grad-a), var(--grad-b))}
+.panel{border:0;border-radius:22px;box-shadow:var(--shadow)}
+/* Knöpfe: rund, heben sich beim Darüberfahren */
+.btn{border-radius:999px;padding:12px 22px;transition:transform .15s, box-shadow .15s, background .2s}
+.btn:not(.ghost){box-shadow:var(--btn-shadow)}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:none}
+.btn.ghost{background:var(--paper);box-shadow:inset 0 0 0 2px var(--line)}
+.btn.ghost:hover{background:var(--soft)}
+.say{transition:transform .15s, background .2s}
+.say:hover{background:var(--line);transform:scale(1.06)}
+/* Eingabefelder */
+.entry{border-bottom-color:var(--line);transition:border-color .2s}
+.entry:focus{border-bottom-color:var(--grad-b);outline:none}
+.entry:focus-visible{outline:none;box-shadow:0 3px 0 0 var(--grad-a)}
+.gap:focus{outline:none;box-shadow:0 3px 0 0 var(--grad-b)}
+/* Meldungen mit Zeichen */
+.msg{display:flex;gap:10px;align-items:center;border-radius:14px}
+.msg.ok::before{content:"✓";font-size:1.3rem}
+.smiley{font-size:clamp(3.5rem, 14vw, 5rem);line-height:1;margin:0;font-family:"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif;animation:hop .6s ease-out}
+@keyframes hop{0%{transform:scale(.3) translateY(20px);opacity:0}55%{transform:scale(1.15) translateY(-8px);opacity:1}100%{transform:none}}
+.btn.skip{margin-left:auto;color:var(--muted);font-weight:700}
+.msg.bad::before{content:"✗";font-size:1.3rem}
+.lang{border-radius:999px;padding:3px 10px}
+/* Hintergrund: Foto mit grasender Kuh in den Bergen */
+/* Foto hängt unten an der Seite: nach unten scrollen, dann sieht man die Kuh ganz (Bild ist 2:3 hoch) */
+body{position:relative}
+.bgphoto{position:absolute;inset:0;min-height:100vh;z-index:0;pointer-events:none;
+  background-color:#e8c49c;background-image:url("kuh.jpg");background-repeat:no-repeat;
+  background-size:min(100vw, 110vh) auto;background-position:center bottom}
+.bgphoto::after{content:"";position:absolute;inset:0;background:var(--photo-veil)}
+.wrap{position:relative;z-index:1;padding-bottom:calc(0.74 * min(100vw, 110vh))}
+.bgcow{display:none}
+/* Name der Kuh im Gras unter ihr: Schwarz → Weiss */
+.cowname{--w:min(100vw, 110vh);position:absolute;left:calc((100vw - var(--w)) / 2 + var(--w) * .37);bottom:calc(var(--w) * .2);
+  transform:translateX(-50%);font-family:var(--f-word);font-weight:500;font-size:calc(var(--w) * .1);line-height:1;letter-spacing:.04em;
+  /* jeder Buchstabe: innen Weiss, aussen Hellblau (Rand + hellblauer Schimmer) */
+  color:#ffffff;-webkit-text-fill-color:#ffffff;
+  -webkit-text-stroke:6px #8ccaff;paint-order:stroke fill;
+  text-shadow:none;   /* kein Leuchten mehr */
+  filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
+/* Bild-Band: die Kuh immer gut sichtbar, bei jeder Fenstergrösse */
+.cowband{width:100%;aspect-ratio:2 / 1;max-width:100%;border-radius:22px;box-shadow:var(--shadow);
+  background:url("kuh.jpg") 17% 67% / 160% auto no-repeat;margin-top:6px;border:4px solid var(--paper)}
+/* Computer: Foto links in voller Höhe (Kuh ganz sichtbar), verschwommen dahinter, Heftblatt rechts */
+@media (min-width:1150px){
+  .bgphoto{position:fixed;background:none;overflow:hidden}
+  .bgphoto::before{content:"";position:absolute;inset:-40px;background:url("kuh.jpg") center 40% / cover no-repeat;filter:blur(28px) saturate(1.05)}
+  .bgcow{display:block;position:absolute;left:0;top:0;bottom:0;width:66.65vh;background:url("kuh.jpg") center / cover no-repeat;
+    -webkit-mask-image:linear-gradient(to right, #000 82%, transparent);mask-image:linear-gradient(to right, #000 82%, transparent)}
+  .wrap{margin-left:max(calc(66.65vh * .62), calc(100vw - 680px - 3vw));margin-right:max(24px, 3vw);padding-bottom:48px}
+  .cowband{display:none}
+  .cowname{left:calc(66.65vh * .37);bottom:16vh;font-size:6.5vh}
+}
+/* auf dem Foto: Texte ausserhalb der Karten gut lesbar halten */
+h1{display:inline-block;background:var(--paper);padding:2px 16px;border-radius:999px;box-shadow:var(--shadow)}
+.progress{background:var(--paper);padding:8px 14px;border-radius:999px;box-shadow:var(--shadow)}
+.steps li:not(.on){background:var(--paper)}
+@media (max-width:520px){ .modes button[data-m="test"]{margin-left:0} .sheet{padding-left:18px;padding-right:18px} }
+/* ---------- Cooles Design ---------- */
+/* Kuh-Foto heller, damit man die Kuh besser sieht */
+.bgphoto{filter:brightness(1.5) contrast(1.12) saturate(1.1)}
+.bgcow{filter:brightness(1.1) contrast(1.05)}
+/* Milchglas: Foto schimmert durch */
+.sheet, .panel, .modes, .tabs, .progress, h1{background-color:var(--glass);-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3)}
+.sheet{background-color:var(--glass)}
+.tabs button[aria-selected="true"]{color:#fff}
+/* blauer Streifen oben am Blatt fliesst */
+.sheet::before{background:linear-gradient(90deg, var(--grad-a), var(--grad-b), var(--grad-a));background-size:200% 100%;animation:flow 6s linear infinite}
+@keyframes flow{to{background-position:200% 0}}
+/* Knöpfe glänzen beim Darüberfahren */
+.btn:not(.ghost){background-image:linear-gradient(90deg, var(--grad-a), var(--grad-b), var(--grad-a));background-size:200% 100%;background-position:0 0;transition:transform .15s, box-shadow .15s, background-position .5s}
+.btn:not(.ghost):hover{background-position:100% 0;box-shadow:0 10px 24px rgba(11,42,111,.35)}
+/* Fortschrittsbalken mit Glanz */
+.bar span{position:relative;overflow:hidden}
+.bar span::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, transparent, rgba(255,255,255,.65), transparent);transform:translateX(-100%);animation:shine 2.6s ease-in-out infinite}
+@keyframes shine{60%,100%{transform:translateX(100%)}}
+/* Anzeige oben: Serie und Sterne */
+.hud{display:flex;gap:8px;margin-left:auto}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:var(--shadow);font:800 1rem var(--f-ui);color:var(--fg);font-variant-numeric:tabular-nums}
+.chip b{font-weight:800}
+.hud{flex-wrap:wrap}
+.chip small{color:var(--muted);font-weight:700;margin-left:-3px}
+.lvlbar{display:inline-block;width:46px;height:7px;border-radius:999px;background:var(--line);overflow:hidden;margin-left:2px}
+#lvl-fill{display:block;height:100%;width:0;background-image:linear-gradient(90deg, var(--grad-a), var(--grad-b));transition:width .6s}
+.ring{width:22px;height:22px;transform:rotate(-90deg);flex:none}
+.ring-bg{fill:none;stroke:var(--line);stroke-width:4}
+.ring-fg{fill:none;stroke:#ffb400;stroke-width:4;stroke-linecap:round;stroke-dasharray:94.25;stroke-dashoffset:94.25;transition:stroke-dashoffset .6s}
+.chip.goal .ring-fg{stroke:#22c55e}
+.chip.sound{border:0;cursor:pointer;font-size:1.1rem;padding:6px 10px}
+/* Level-Knopf und Fenster «Wie weit bin ich?» */
+header{position:relative;z-index:5}
+.chip.level{border:0;cursor:pointer;transition:transform .15s}
+.chip.level:hover{transform:translateY(-2px)}
+.lvlpop{position:absolute;top:calc(100% + 10px);right:0;width:min(360px, 100%);z-index:30;background:var(--paper);border-radius:20px;box-shadow:var(--shadow), 0 20px 50px rgba(11,42,111,.25);padding:18px;display:flex;flex-direction:column;gap:14px;animation:popin .2s ease-out}
+@keyframes popin{from{transform:translateY(-6px) scale(.97);opacity:0}}
+.lvl-now{display:flex;align-items:center;gap:14px}
+.lvl-now .big-ic{font-size:3rem;line-height:1}
+.lvl-now h3{margin:0;font-family:var(--f-word);font-size:1.5rem;font-weight:500;color:var(--fg)}
+.lvl-now p{margin:0;color:var(--muted);font-weight:700}
+.lvl-next{display:flex;flex-direction:column;gap:6px;font-weight:700;color:var(--fg)}
+.lvl-next .track{height:12px;border-radius:999px;background:var(--soft);overflow:hidden}
+.lvl-next .track span{display:block;height:100%;border-radius:999px;background-image:linear-gradient(90deg, var(--grad-a), var(--grad-b))}
+.lvl-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.lvl-list li{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:12px;background:var(--bg);font-weight:700;color:var(--muted)}
+.lvl-list li .ic{font-size:1.4rem;width:1.8rem;text-align:center}
+.lvl-list li .nm{flex:1;min-width:0}
+.lvl-list li .st{font-size:.85rem;white-space:nowrap}
+.lvl-list li.done{color:var(--fg)}
+.lvl-list li.now{color:#fff;background-image:linear-gradient(90deg, var(--grad-a), var(--grad-b));box-shadow:var(--btn-shadow)}
+.lvl-list li.locked{opacity:.6}
+.lvlpop .close{align-self:flex-end}
+/* Lern-Rhythmus alle 2 Tage */
+.rhythm{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:6px 14px;border-radius:14px;background-color:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:var(--shadow);font-weight:800;font-size:.88rem;line-height:1.35}
+.rhythm .ic{font-size:1.1rem;line-height:1}
+.rhythm .txt{flex:1;min-width:0}
+/* Schrift mit dem blauen Verlauf */
+.rhythm .txt, .rhythm .txt small{background-image:linear-gradient(90deg, var(--grad-a), var(--grad-b));-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.rhythm .txt small{display:block;font-weight:700;font-size:.78rem}
+.rhythm .days{display:flex;gap:3px}
+.rhythm .days span{width:20px;height:20px;border-radius:6px;display:grid;place-items:center;font-size:.6rem;background:var(--soft);color:var(--muted)}
+.rhythm .days span.on{background-image:linear-gradient(135deg, var(--grad-a), var(--grad-b));color:#fff}
+.rhythm .days span.today{outline:2px solid var(--grad-b);outline-offset:1px}
+/* heute Lerntag / zu lange Pause: Verlauf in Orange bzw. Rot */
+.rhythm.due .txt, .rhythm.due .txt small{background-image:linear-gradient(90deg, #d35400, #ff9f1a)}
+.rhythm.late .txt, .rhythm.late .txt small{background-image:linear-gradient(90deg, #b71c1c, #ff5252)}
+.chip.sound.off{opacity:.55}
+.chip.bump{animation:bump .5s ease-out}
+@keyframes bump{40%{transform:scale(1.25)}}
+.chip.hot{background-image:linear-gradient(90deg, #ff7a18, #ffb347);color:#fff}
+/* Lob-Meldung bei Serien */
+.toast{position:fixed;left:50%;top:calc(18px + env(safe-area-inset-top, 0px));transform:translate(-50%,-140%);z-index:50;
+  padding:12px 22px;border-radius:999px;font:800 1.15rem var(--f-ui);color:#fff;
+  background-image:linear-gradient(90deg, var(--grad-a), var(--grad-b));box-shadow:var(--btn-shadow);transition:transform .35s cubic-bezier(.2,1.4,.4,1);pointer-events:none;white-space:nowrap}
+.toast.show{transform:translate(-50%,0)}
+/* Konfetti */
+.confetti{position:fixed;width:10px;height:14px;border-radius:2px;z-index:40;pointer-events:none;animation:fall 1.3s cubic-bezier(.2,.6,.4,1) forwards}
+@keyframes fall{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx), var(--dy)) rotate(var(--rot));opacity:0}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+@keyframes pop{from{transform:scale(.97);opacity:.6}to{transform:none;opacity:1}}
+.pop{animation:pop .25s ease-out}
+</style>
+<link rel="stylesheet" href="auth.css">
+</head>
+<body>
+<script>window.WOERTLI_NEEDS_LOGIN = true;</script>
+<div class="bgphoto" aria-hidden="true"><div class="bgcow"></div><div class="cowname">Stern</div></div>
+
+<div class="wrap">
+  <header>
+    <h1 id="title">Wörtli üben</h1>
+    <div class="hud">
+      <button class="chip level" id="hud-level" type="button" title="Dein Kuh-Level – drück drauf" aria-expanded="false" aria-controls="lvlpop"><span id="lvl-icon">🐮</span> <b id="lvl-name">Kälbli</b><span class="lvlbar"><span id="lvl-fill"></span></span></button>
+      <span class="chip" id="hud-streak" title="Richtig hintereinander">🔥 <b id="streak-n">0</b></span>
+      <span class="chip" id="hud-stars" title="Sterne heute – Tagesziel 20" hidden>
+        <svg class="ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="ring-bg" cx="18" cy="18" r="15"/><circle class="ring-fg" id="ring-fg" cx="18" cy="18" r="15"/></svg>
+        ⭐ <b id="stars-n">0</b><small>/20</small></span>
+      <button class="chip sound" id="hud-sound" type="button" title="Kuhglocke an/aus" aria-label="Kuhglocke an oder aus">🔔</button>
+    </div>
+    <div class="lvlpop" id="lvlpop" role="dialog" aria-label="Dein Kuh-Level" hidden></div>
+    <div class="tabs" role="tablist">
+      <button id="tab-practice" role="tab" aria-selected="true">Üben</button>
+      <button id="tab-list" role="tab" aria-selected="false">Meine Wörtli</button>
+    </div>
+  </header>
+
+  <section id="view-practice" class="view">
+    <div class="rhythm" id="rhythm" role="status" hidden></div>
+    <div class="modes" id="modes" aria-label="Übungsart"></div>
+    <ol class="steps" id="steps">
+      <li id="st-look"><span class="n">1</span>Anschauen</li>
+      <li id="st-copy"><span class="n">2</span>Abschreiben</li>
+      <li id="st-write"><span class="n">3</span>Auswendig schreiben</li>
+    </ol>
+    <div class="progress"><span id="prog-text" hidden>0 / 0</span><div class="bar"><span id="prog-bar"></span></div><span id="prog-ok">0 ✓</span></div>
+    <div class="sheet" id="sheet"></div>
+  </section>
+
+  <section id="view-list" class="view" hidden>
+    <div class="panel">
+      <h2>Meine Wörtli <span class="example" id="example-tag" hidden>Beispiel-Liste</span></h2>
+      <div>
+        <label for="listname">Name der Liste</label>
+        <input type="text" class="name" id="listname" placeholder="z.B. Wörtli Woche 46">
+      </div>
+      <div>
+        <label for="words">Wörtli: ein Wort pro Zeile, zuerst Deutsch, dann <code>=</code>, dann Englisch</label>
+        <p class="hint">Beispiel: <code>Fenster = window</code>. Wenn du nur Deutsch üben willst, lass das Englische einfach weg.</p>
+        <p class="hint">Bild für den Test: Viele Wörter haben schon ein Bild. Du kannst auch selber eines dazuschreiben, z.B. <code>Fenster = window = 🪟</code>. Bildzeichen findest du am Computer mit der Windows-Taste und dem Punkt.</p>
+        <p class="hint">Satz für den Lückentext: am Schluss dazuschreiben, das Lückenwort in Sternchen, z.B. <code>Fenster = window = Please open the *window*.</code></p>
+        <textarea id="words" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea>
+      </div>
+      <div class="row">
+        <button class="btn" id="save">Speichern und üben</button>
+        <span class="hint" id="save-msg"></span>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Einstellungen</h2>
+      <label class="check"><input type="checkbox" id="opt-copy"> <span>Schritt «Abschreiben» machen<br><span class="hint">Beim Rechtschreiben: zuerst einmal schreiben, während das Wort noch da ist.</span></span></label>
+      <label class="check"><input type="checkbox" id="opt-case"> <span>Gross- und Kleinschreibung zählt<br><span class="hint">«strasse» ist dann falsch, wenn «Strasse» verlangt ist.</span></span></label>
+      <label class="check"><input type="checkbox" id="opt-shuffle"> <span>Wörtli mischen</span></label>
+      <label class="check"><input type="checkbox" id="opt-len"> <span>Beim Auswendig-Schreiben anzeigen, wie viele Buchstaben das Wort hat</span></label>
+    </div>
+    <div class="panel">
+      <h2>Vorlesen</h2>
+      <p class="hint">Das Programm liest immer mit voller Lautstärke vor. Wenn es zu leise ist, stell den Ton am Computer oder Tablet lauter. Stimmen mit «Natural», «Online» oder «Google» im Namen klingen meistens am besten.</p>
+      <div class="voice-row">
+        <label for="voice-en">Stimme Englisch</label>
+        <div class="row"><select id="voice-en" class="sel"></select><button class="btn ghost" id="test-en">Test</button></div>
+      </div>
+      <div class="voice-row">
+        <label for="voice-de">Stimme Deutsch</label>
+        <div class="row"><select id="voice-de" class="sel"></select><button class="btn ghost" id="test-de">Test</button></div>
+      </div>
+      <div class="voice-row">
+        <label for="rate">Tempo: <span id="rate-val"></span></label>
+        <input type="range" id="rate" min="0.5" max="1.2" step="0.05">
+      </div>
+      <label class="check"><input type="checkbox" id="opt-twice"> <span>Beim Hören jedes Wort zweimal sagen</span></label>
+    </div>
+    <div class="panel">
+      <h2>So gut kannst du sie schon</h2>
+      <ul class="stats" id="stats"></ul>
+      <div class="row"><button class="btn ghost" id="reset-stats">Zähler zurücksetzen</button><span class="hint" id="reset-msg"></span></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+const KEY = "woertli-v1";
+const EXAMPLE = [["Strasse","street"],["Fenster","window"],["Schmetterling","butterfly"],["Velo","bike"],["Kirsche","cherry"],["gross","big"],["Zahnbürste","toothbrush"],["Schnee","snow"]].map(([de,en])=>({de,en}));
+const MODES = [
+  {id:"spell-en", label:"Englisch schreiben", need:["en"]},
+  {id:"listen",   label:"Hören", need:["de","en"]},
+  {id:"en-de",    label:"Englisch → Deutsch", need:["de","en"]},
+  {id:"de-en",    label:"Deutsch → Englisch", need:["de","en"]},
+  {id:"sent",     label:"Sätze", need:["en","s"]},
+  {id:"persons",  label:"Personen", need:["de","en"], filter: it=>isVerb(it)},
+  {id:"test",     label:"Test", need:["de","en"]},
+];
+/* Bilder (Emoji) für häufige englische Wörter */
+const EMOJI = (()=>{
+  const m={}, src = `apple🍎banana🍌cherry🍒strawberry🍓grapes🍇pear🍐orange🍊lemon🍋watermelon🍉pineapple🍍peach🍑carrot🥕tomato🍅potato🥔corn🌽bread🍞cheese🧀egg🥚milk🥛cake🍰pizza🍕ice cream🍦chocolate🍫sandwich🥪soup🍲tea🍵coffee☕water💧juice🧃cookie🍪honey🍯butter🧈salad🥗fish🐟dog🐕cat🐈mouse🐭horse🐎cow🐄pig🐖sheep🐑goat🐐chicken🐔hen🐔duck🦆bird🐦rabbit🐇bunny🐰bear🐻lion🦁tiger🐯elephant🐘monkey🐒giraffe🦒zebra🦓snake🐍frog🐸turtle🐢owl🦉bee🐝butterfly🦋spider🕷️snail🐌ant🐜fox🦊wolf🐺deer🦌squirrel🐿️hedgehog🦔whale🐋dolphin🐬shark🦈octopus🐙penguin🐧parrot🦜unicorn🦄dragon🐉dinosaur🦕house🏠home🏠school🏫church⛪castle🏰tree🌳flower🌸rose🌹sun☀️moon🌙star⭐cloud☁️rain🌧️snow❄️snowman⛄rainbow🌈wind💨fire🔥mountain⛰️sea🌊wave🌊beach🏖️island🏝️lake🏞️river🏞️forest🌲leaf🍃window🪟door🚪bed🛏️chair🪑lamp💡key🔑book📕pencil✏️pen🖊️ruler📏scissors✂️bag🎒schoolbag🎒backpack🎒clock🕐watch⌚phone📱mobile phone📱computer💻ball⚽football⚽basketball🏀kite🪁teddy🧸teddy bear🧸balloon🎈gift🎁present🎁car🚗bus🚌train🚆plane✈️airplane✈️bike🚲bicycle🚲boat⛵ship🚢rocket🚀tractor🚜street🛣️road🛣️bridge🌉toothbrush🪥soap🧼umbrella☂️hat🎩cap🧢shoe👟shoes👟sock🧦socks🧦dress👗shirt👕t-shirt👕trousers👖jeans👖jacket🧥glasses👓gloves🧤scarf🧣crown👑ring💍eye👁️eyes👀ear👂nose👃mouth👄hand✋foot🦶leg🦵tooth🦷teeth🦷heart❤️baby👶boy👦girl👧man👨woman👩family👪king🤴queen👸happy😀sad😢angry😠tired😴sick🤒music🎵guitar🎸piano🎹drum🥁picture🖼️camera📷letter✉️money💰hammer🔨candle🕯️bell🔔christmas tree🎄pumpkin🎃ghost👻witch🧙cup☕glass🥛plate🍽️fork🍴knife🔪spoon🥄mushroom🍄cactus🌵nut🥜sausage🌭chips🍟hamburger🍔popcorn🍿sweets🍬candy🍬lollipop🍭bath🛁shower🚿toilet🚽tent⛺swim🏊run🏃sleep😴dance💃sing🎤read📖write✍️horse🐎snowflake❄️egg🥚bone🦴boot👢crab🦀worm🪱fly🪰pencil case✏️bus stop🚏police car🚓ambulance🚑fire engine🚒taxi🚕helicopter🚁flag🚩football player⚽kitchen🍳globe🌍world🌍map🗺️tiger🐯`;
+  const re=/([a-z][a-z \-]*?)(\p{Extended_Pictographic}[️‍\p{Extended_Pictographic}]*)/gu;
+  let x; while((x=re.exec(src))) m[x[1].trim()]=x[2];
+  return m;
+})();
+function pictureFor(it){
+  if(it.pic) return it.pic;
+  const w=(it.en||"").toLowerCase().trim();
+  return EMOJI[w] || EMOJI[w.replace(/^(a|an|the|to)\s+/,"")] || EMOJI[w.replace(/s$/,"")] || "";
+}
+const LANG = {de:"de-CH", en:"en-GB"};
+const LANGNAME = {de:"Deutsch", en:"Englisch"};
+const ICON_SPEAK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+
+/* Daten: pro Person getrennt (Speicher-Schlüssel), optional zusätzlich in der Cloud */
+let KEY_ACTIVE = KEY, onSaveHook = null;
+const DEFAULT_DATA = () => ({ name:"Beispiel-Wörtli", items:EXAMPLE.slice(), isExample:true, stats:{},
+  opts:{copy:true, caseSens:true, shuffle:true, len:false, mode:"spell-en", rate:0.85, twice:false, voice_en:"", voice_de:"", v:3} });
+let data = DEFAULT_DATA();
+function loadData(s){
+  data = DEFAULT_DATA();
+  try{
+    if(s){
+      s = JSON.parse(JSON.stringify(s));
+      if(!Array.isArray(s.items) && Array.isArray(s.words)){
+        // alte Version: nur deutsche Wörter. Beispiel-Liste bekommt die neue Version mit Englisch.
+        s.items = s.isExample ? EXAMPLE.slice() : s.words.map(w=>({de:w,en:""}));
+        const st={}; Object.keys(s.stats||{}).forEach(w=>{ const it=s.items.find(i=>i.de===w); if(it) st[keyOf(it)]=s.stats[w]; }); s.stats=st;
+      }
+      delete s.words;
+      if(Array.isArray(s.items)) data = Object.assign(data, s, {opts:Object.assign(data.opts, s.opts||{})});
+    }
+  }catch(e){}
+}
+/* Wörter aus dem Englischbuch: Unit 2 «Without words» */
+const UNIT2 = `aggressiv, energisch = aggressive = Our neighbour's dog is very *aggressive*.
+Tier = animal = My sister loves *animals*, especially dogs.
+chemisch = chemical = Pheromones are a *chemical* substance.
+Schimpanse = chimpanzee = *Chimpanzees* live in large family groups.
+kommunizieren = communicate = Dogs *communicate* through sounds and body language.
+Tanz = dance = 💃 = Waltz, disco fox and tango are all types of *dance*.
+Pheromon = pheromone = Ants produce *pheromones* to mark trails.
+Zeichen, Signal = signal = This *signal* says 'wait'!
+Symbol = symbol = Red roses are a *symbol* of love.
+Wal = whale = 🐋 = Blue *whales* are the largest animals in the world.
+Angst haben, sich fürchten = afraid = 😨 = Are you *afraid* of the dark?
+zornig = angry = 😠 = My mother is still *angry* with me.
+Tierkommunikation = animal communication = He knows a lot about *animal communication*.
+ruhig = calm = The sea is *calm* today.
+Katze = cat = 🐈 = This *cat* meows all the time.
+Ohr = ear = 👂 = Elephants have very large *ears*.
+aufgeregt, begeistert = excited = 🤩 = I am so *excited* about going to America!
+springen = jump = Then they *jumped* into the swimming pool.
+heben = lift = Can you really *lift* this big box?
+Mund, Maul = mouth = 👄 = What has your dog got in its *mouth*?
+entspannt, locker = relaxed = Their style of music is *relaxed*.
+etwas, ein wenig = slightly = I'm *slightly* worried about this problem.
+Biene = bee = 🐝 = There are many *bees* in the garden today.
+herausfinden = find out = I want to *find out* what is going on.
+Wissenschaftler/-in = scientist = 🧑‍🔬 = He's a famous *scientist* who is sometimes on TV.
+langsam = slowly = Can you speak more *slowly*, please?
+riechen = smell = I can *smell* those flowers from here!
+schlagen = beat = How fast the bees *beat* their wings!
+verstopft, blockiert = blocked = I can't get in. The entrance is *blocked*.
+beschäftigt, belebt = busy = Sorry, I'm really *busy* at the moment.
+Blume = flower = 🌸 = This garden is full of beautiful *flowers*.
+gegenüberliegend, entgegengesetzt = opposite = Then they walked off in *opposite* directions.
+Sonne = sun = ☀️ = The *sun* rises in the east, doesn't it?
+abgesehen von = apart from = We saw all the famous bands at the festival *apart from* one.
+Feind/-in = enemy = I don't have any *enemies*, just friends.
+normalerweise = normally = I *normally* do my homework as soon as I get home.
+bewahren, erhalten = preserve = Their hobby is to *preserve* old books.
+Reaktion = reaction = What was his *reaction* when you said that?
+entfernen = remove = Please *remove* your books from the table.
+Haut = skin = You should put sun-cream on to protect your *skin*.
+Brettspiel = board game = 🎲 = Sometimes, we play *board games* at Christmas.
+Jahrzehnt = decade = Some people work in the same job for *decades*.
+Gefühl, Emotion = emotion = If you don't show any *emotion*, people don't know how you're feeling.
+gleichermassen, ebenso = equally = It's a game which is *equally* challenging for young and old.
+Wald = forest = 🌲 = There are many old trees in this *forest*.
+einen Spaziergang machen = go for a walk = Let's *go for a walk* in the park.
+schnell = quick = My cousin is always *quick* to help.
+ruhig = quiet = Can you tell the children to be *quiet*?
+Zeichensprache = sign language = 🤟 = They use *sign language* to communicate with animals.
+geeignet, passend = suitable = Have you found a *suitable* place to stay yet?
+so wie es Kinder machen = the way children do = Some apes learn language *the way children do*.
+bekannt, berühmt = well-known = She's a *well-known* actress and very talented.
+hell, grell, leuchtend = bright = When the sun is so *bright*, I really need my sunglasses.
+Gefahr = danger = ⚠️ = Plastic bags are a *danger* to wild animals.
+Gesichtsausdruck = facial expression = Chimpanzees have many different *facial expressions*.
+Vorderbein = front leg = I will look at the *front leg* of your cat now.
+Pferd = horse = 🐎 = She rides her *horse* every weekend.
+auf eine interessante Art = in an interesting way = Your dog communicates *in an interesting way*!
+treten, ausschlagen = kick = When her horse feels good, it *kicks* its legs.
+sich kümmern um = look after = My friend often *looks after* her little sister.
+Geräusch = noise = Shhh! Did you hear that *noise*?
+warnen = warn = Why didn't you *warn* me?`;
+function save(){
+  try{ localStorage.setItem(KEY_ACTIVE, JSON.stringify(data)); }catch(e){}
+  if(onSaveHook){ try{ onSaveHook(data); }catch(e){} }
+}
+function keyOf(it){ return it.de+"|"+it.en; }
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- Vorlesen ---------- */
+let voices=[];
+function loadVoices(){ try{ voices = window.speechSynthesis ? speechSynthesis.getVoices() : []; }catch(e){ voices=[]; } }
+loadVoices();
+try{ if(window.speechSynthesis) speechSynthesis.onvoiceschanged = loadVoices; }catch(e){}
+const vLang = v => (v.lang||"").toLowerCase().replace("_","-");
+function voicesFor(lang){ return voices.filter(v=>vLang(v).startsWith(lang)); }
+function voiceScore(v, lang){
+  let s=0; const n=v.name||"", l=vLang(v);
+  if(/natural|neural|online|premium|enhanced|wavenet/i.test(n)) s+=50;   // natürlich klingende Stimmen
+  if(/google/i.test(n)) s+=30;
+  // weiche, ruhige Stimmen bevorzugen
+  if(/female|libby|sonia|maisie|jenny|aria|ava|emma|katja|amala|seraphina|vicki|hedda|serena|kate|samantha|anna/i.test(n)) s+=12;
+  if(l===LANG[lang].toLowerCase()) s+=20;
+  if(lang==="de" && l==="de-de") s+=15;
+  if(lang==="en" && l==="en-us") s+=10;
+  if(!v.localService) s+=5;
+  if(/compact|espeak/i.test(n)) s-=40;
+  // Mehrsprachige Stimmen raten die Sprache selbst und lesen kurze englische Wörter manchmal deutsch.
+  if(/multilingual|multi-lingual/i.test(n)) s-=80;
+  // Für Englisch: echte britische oder amerikanische Stimmen bevorzugen
+  if(lang==="en" && /^en-(gb|us)$/.test(l)) s+=15;
+  if(lang==="en" && /^en-(in|ng|ke|za|ph|sg|hk|tz)/.test(l)) s-=20;
+  return s;
+}
+function pickVoice(lang){
+  const list=voicesFor(lang); if(!list.length) return null;
+  const chosen = data.opts["voice_"+lang];
+  if(chosen){ const v=list.find(v=>v.name===chosen); if(v) return v; }
+  return list.slice().sort((a,b)=>voiceScore(b,lang)-voiceScore(a,lang))[0];
+}
+function showVoiceInfo(lang, v){
+  const el=document.getElementById("voice-info"); if(!el) return;
+  if(!v){
+    el.className="msg bad";
+    el.innerHTML = lang==="en"
+      ? "Auf diesem Gerät gibt es keine englische Stimme. Darum klingt das Wort falsch. So holst du eine: Windows-Einstellungen → Zeit und Sprache → Sprache → «Englisch (Vereinigtes Königreich)» hinzufügen, mit Sprachausgabe. Oder öffne das Programm im Edge-Browser."
+      : "Auf diesem Gerät gibt es keine deutsche Stimme.";
+  } else {
+    el.className="hint";
+    el.textContent = `Es spricht: ${v.name} (${v.lang})`;
+  }
+  el.hidden=false;
+}
+let speakTimer=null, actx=null;
+function wakeAudio(sec){
+  // spielt Stille ab, damit die Lautsprecher eingeschaltet sind, bevor das Wort kommt
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return;
+    actx = actx || new AC();
+    if(actx.state==="suspended") actx.resume();
+    const b = actx.createBuffer(1, Math.ceil(actx.sampleRate*sec), actx.sampleRate);
+    const s = actx.createBufferSource(); s.buffer=b; s.connect(actx.destination); s.start();
+  }catch(e){}
+}
+function speak(text, lang, rate, times){
+  try{
+    if(!window.speechSynthesis) return false;
+    clearTimeout(speakTimer);
+    const busy = speechSynthesis.speaking || speechSynthesis.pending;
+    speechSynthesis.cancel();
+    const v = pickVoice(lang);
+    // Natürliche Tonhöhe (verstellte Tonhöhe klingt oft abgehackt).
+    const mk = (t, vol, r) => { const u=new SpeechSynthesisUtterance(t); u.lang=v?v.lang:LANG[lang]; u.volume=vol; u.rate=r; u.pitch=1; if(v) u.voice=v; return u; };
+    // Mit Punkt am Ende spricht die Stimme das Wort ruhig und fliessend fertig.
+    if(!/[.!?]$/.test(text)) text = text + ".";
+    // Vor dem Wort eine kurze Pause (etwa 1 Sekunde) mit echter Stille,
+    // so sind Lautsprecher/Kopfhörer schon wach und der Anfang wird nicht abgeschnitten.
+    // Das Wort selbst immer mit voller Lautstärke.
+    const r = rate || data.opts.rate || 0.85;
+    const PAUSE = 2000;
+    wakeAudio(PAUSE/1000 + 0.4);
+    const status = t => { const el=document.getElementById("speak-status"); if(el){ el.textContent=t; el.hidden=!t; } };
+    status("Achtung, gleich kommt das Wort …");
+    // Erst sprechen, wenn die Stimmen geladen sind, damit immer dieselbe Stimme spricht.
+    const start = Date.now();
+    const go = () => {
+      if(!voicesFor(lang).length && Date.now()-start < 3000){ loadVoices(); speakTimer=setTimeout(go, 150); return; }
+      const vv = pickVoice(lang);
+      showVoiceInfo(lang, vv);
+      const sayV = n => {
+        const u=mk(text, 1, r); if(vv){ u.voice=vv; u.lang=vv.lang; }
+        u.onstart=()=>status("");
+        u.onend=()=>{ status(""); if(n>1) speakTimer=setTimeout(()=>sayV(n-1), 1200); };
+        speechSynthesis.speak(u);
+      };
+      status(""); sayV(times||1);
+    };
+    speakTimer = setTimeout(go, PAUSE);
+    return true;
+  }catch(e){ return false; }
+}
+function sayBtn(id, label){ return `<button class="say" id="${id}" aria-label="${esc(label)}" title="${esc(label)}">${ICON_SPEAK}</button>`; }
+
+/* ---------- Tabs ---------- */
+function showTab(which){
+  $("tab-practice").setAttribute("aria-selected", which==="practice");
+  $("tab-list").setAttribute("aria-selected", which==="list");
+  $("view-practice").hidden = which!=="practice";
+  $("view-list").hidden = which!=="list";
+  if(which==="list") fillListView();
+}
+$("tab-practice").onclick = () => { showTab("practice"); render(); };
+$("tab-list").onclick = () => showTab("list");
+
+/* ---------- Übungsart ---------- */
+function mode(){ return MODES.find(m=>m.id===data.opts.mode) || MODES[0]; }
+if(!MODES.some(m=>m.id===data.opts.mode)) data.opts.mode = MODES[0].id;   // Wort steht immer auf Englisch
+function eligible(m){ return data.items.filter(it => m.need.every(f => it[f]) && (!m.filter || m.filter(it))); }
+function renderModes(){
+  $("modes").innerHTML = MODES.map(m=>`<button data-m="${m.id}" aria-pressed="${m.id===data.opts.mode}">${esc(m.label)}</button>`).join("");
+  $("modes").querySelectorAll("button").forEach(b=>b.onclick=()=>{ data.opts.mode=b.dataset.m; save(); renderModes(); startRound(); });
+}
+
+/* ---------- Session ---------- */
+let S;
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+function startRound(list){
+  const m = mode();
+  if(m.id==="test") return startTest();
+  const items = (list || eligible(m)).slice();
+  const spell = m.id.startsWith("spell");
+  S = { mode:m.id, spell, field: m.id==="spell-en" ? "en" : "de",
+        total:items.length, queue: data.opts.shuffle ? shuffle(items) : items,
+        phase: (spell || m.id==="sent") ? "look" : "write", firstTry:{}, done:new Set(), mistakes:{}, last:null, peeked:false,
+        autoSpeak: m.id==="listen" };
+  render();
+}
+function current(){ return S.queue[0]; }
+function norm(s){ return s.trim().replace(/\s+/g," "); }
+/* Alle richtigen Antworten: «aggressiv, energisch» → beide; «Feind/-in» → Feind, Feindin */
+function alts(b){
+  const out=new Set([norm(b)]);
+  b.split(/\s*,\s*/).forEach(x=>{
+    x=norm(x); if(!x) return; out.add(x);
+    const m=x.match(/^(.*?)\/-?(\p{L}+)$/u); if(m){ out.add(m[1]); out.add(m[1]+m[2]); }
+  });
+  return [...out];
+}
+function eq(a,b){ return data.opts.caseSens ? a===b : a.toLowerCase()===b.toLowerCase(); }
+function same(a,b){ a=norm(a); return alts(b).some(x=>eq(a,x)); }
+function lev(a,b){ const d=[...Array(b.length+1).keys()]; for(let i=1;i<=a.length;i++){ let p=d[0]; d[0]=i; for(let j=1;j<=b.length;j++){ const t=d[j]; d[j]=Math.min(d[j]+1,d[j-1]+1,p+(eq(a[i-1],b[j-1])?0:1)); p=t; } } return d[b.length]; }
+/* Für Deutsch → Englisch: gleiches deutsches Wort kann mehrere englische haben (ruhig = calm, quiet) */
+function rightFor(it, to){
+  if(to!=="en") return it[to];
+  const ens=[...new Set(data.items.filter(x=>x.de===it.de && x.en).map(x=>x.en))];
+  return ens.length>1 ? ens.join(", ") : it.en;
+}
+
+/* Getipptes mit dem richtigen Wort vergleichen und falsche Buchstaben markieren */
+function align(typed, right){
+  const cands=alts(right);
+  if(cands.length>1){ const t=norm(typed); right=cands.slice(1).concat(cands[0]).sort((x,y)=>lev(t,x)-lev(t,y))[0]; }
+  const A=[...norm(typed)], B=[...right], cmp=(x,y)=> data.opts.caseSens ? x===y : x.toLowerCase()===y.toLowerCase();
+  const n=A.length, m=B.length, d=[];
+  for(let i=0;i<=n;i++){ d[i]=[]; for(let j=0;j<=m;j++) d[i][j]= i===0 ? j : (j===0 ? i : 0); }
+  for(let i=1;i<=n;i++) for(let j=1;j<=m;j++)
+    d[i][j]=Math.min(d[i-1][j]+1, d[i][j-1]+1, d[i-1][j-1]+(cmp(A[i-1],B[j-1])?0:1));
+  const ops=[]; let i=n, j=m;
+  while(i>0||j>0){
+    if(i>0&&j>0&&d[i][j]===d[i-1][j-1]+(cmp(A[i-1],B[j-1])?0:1)){ ops.push({t:cmp(A[i-1],B[j-1])?"same":"sub",a:A[i-1],b:B[j-1]}); i--; j--; }
+    else if(i>0&&d[i][j]===d[i-1][j]+1){ ops.push({t:"extra",a:A[i-1]}); i--; }
+    else { ops.push({t:"miss",b:B[j-1]}); j--; }
+  }
+  ops.reverse();
+  let typedHtml="", rightHtml="";
+  for(const o of ops){
+    if(o.t==="same"){ typedHtml+=esc(o.a); rightHtml+=esc(o.b); }
+    else if(o.t==="sub"){ typedHtml+=`<mark>${esc(o.a)}</mark>`; rightHtml+=`<mark>${esc(o.b)}</mark>`; }
+    else if(o.t==="extra"){ typedHtml+=`<span class="extra">${esc(o.a)}</span>`; }
+    else { typedHtml+=`<mark class="gap">&nbsp;</mark>`; rightHtml+=`<mark>${esc(o.b)}</mark>`; }
+  }
+  return {typedHtml, rightHtml};
+}
+
+function setSteps(){
+  const order=["look","copy","write"];
+  const showSteps = S && S.spell && S.phase!=="end" && S.total>0;
+  $("steps").hidden = !showSteps;
+  if(!showSteps) return;
+  const ph = S.phase==="result" ? "write" : S.phase;
+  $("st-copy").hidden = !data.opts.copy;
+  const idx=order.indexOf(ph);
+  order.forEach((p,k)=>{ const li=$("st-"+p); li.classList.remove("on","done"); if(p===ph) li.classList.add("on"); else if(k<idx) li.classList.add("done"); });
+  let n=1; order.forEach(p=>{ const li=$("st-"+p); if(!li.hidden) li.querySelector(".n").textContent=n++; });
+}
+function setProgress(){
+  if(S.mode==="test"){
+    const n=S.tasks.length, i=Math.min(S.idx,n);
+    $("prog-text").textContent = `Aufgabe ${Math.min(i+1,n)} von ${n}`;
+    $("prog-bar").style.width = (n ? i/n*100 : 0)+"%";
+    $("prog-ok").textContent = S.idx>=n ? "fertig" : PART_NAMES[S.tasks[i].type];
+    return;
+  }
+  const ok = Object.values(S.firstTry).filter(v=>v).length;
+  $("prog-text").textContent = `${S.done.size} / ${S.total} Wörtli`;
+  $("prog-bar").style.width = (S.total ? S.done.size/S.total*100 : 0)+"%";
+  $("prog-ok").textContent = `${ok} ✓ beim 1. Mal`;
+}
+function entry(id, label, lang){
+  return `<div class="field"><label for="${id}">${esc(label)}</label><input class="entry" id="${id}" type="text" lang="${LANG[lang]}" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>`;
+}
+function focusId(id){ setTimeout(()=>{ const e=$(id); if(e) e.focus(); },30); }
+function onEnter(id, fn){ $(id).onkeydown=e=>{ if(e.key==="Enter"){ e.preventDefault(); fn(); } }; }
+
+function render(){
+  if(!S) return;
+  setSteps(); setProgress();
+  const sh=$("sheet"), it=current();
+  sh.classList.remove("pop"); void sh.offsetWidth; sh.classList.add("pop");
+  // Hinweis, wenn am Schluss die Wiederholung der Fehler-Wörter beginnt
+  if(S.mode!=="test" && it && S.endAgain && S.endAgain.has(keyOf(it)) && S.done.has(keyOf(it)) && S.phase!=="result"){
+    $("prog-ok").textContent = "Wiederholung";
+  }
+
+  if(S.total===0){
+    const m=mode();
+    sh.innerHTML = m.id==="persons" ? `<p class="prompt">Für «Personen» braucht es Verben (Tunwörter) in deiner Liste, zum Beispiel <code>warnen = warn</code>.</p>
+      <div class="row"><button class="btn" id="go">Wörtli bearbeiten</button></div>` : m.id==="sent" ? `<p class="prompt">Für «Sätze» braucht jedes Wort einen Beispielsatz.</p>
+      <p class="hint">Schreib in «Meine Wörtli» am Schluss einen Satz dazu, das Wort in Sternchen, zum Beispiel <code>Fenster = window = Please open the *window*.</code></p>
+      <div class="row"><button class="btn" id="go">Wörtli bearbeiten</button></div>` : `<p class="prompt">Für «${esc(m.label)}» braucht jedes Wort auch ${m.need.includes("en")?"die englische Übersetzung":"ein deutsches Wort"}.</p>
+      <p class="hint">Schreib in «Meine Wörtli» zum Beispiel <code>Fenster = window</code>.</p>
+      <div class="row"><button class="btn" id="go">Wörtli bearbeiten</button></div>`;
+    $("go").onclick=()=>showTab("list");
+    return;
+  }
+  if(S.mode==="test") return renderTest(sh);
+  if(S.phase==="end" || !it){ S.phase="end"; setSteps(); return renderEnd(); }
+
+  if(S.spell) renderSpell(sh, it);
+  else if(S.phase==="result") return renderResult(sh, it);
+  else if(S.mode==="sent") renderSentence(sh, it);
+  else if(S.mode==="persons") renderPersons(sh, it);
+  else if(S.mode==="listen") renderListen(sh, it);
+  else renderTranslate(sh, it);
+  if(S.phase!=="result") addSkip(sh, it);
+}
+
+/* Überspringen: Wort/Satz kommt in dieser Runde nicht mehr, zählt nicht als Fehler */
+function addSkip(sh, it){
+  const rows=sh.querySelectorAll(".row"); const row=rows[rows.length-1]; if(!row) return;
+  const b=document.createElement("button");
+  b.className="btn ghost skip"; b.type="button"; b.textContent = S.mode==="sent" ? "Satz überspringen ›" : "Überspringen ›";
+  b.onclick=()=>skipCurrent(it);
+  row.appendChild(b);
+}
+function skipCurrent(it){
+  const k=keyOf(it);
+  try{ clearTimeout(speakTimer); if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+  S.skipped = S.skipped || new Set(); S.skipped.add(k);
+  if(!(k in S.firstTry)) S.firstTry[k]=false;
+  S.done.add(k);
+  S.queue = S.queue.filter(x=>keyOf(x)!==k);
+  S.phase = (S.spell || S.mode==="sent") ? "look" : "write";
+  S.peeked=false; S.autoSpeak = S.mode==="listen";
+  render();
+}
+
+/* Rechtschreiben: anschauen, abschreiben, auswendig */
+function renderSpell(sh, it){
+  const f=S.field, w=it[f];
+  if(S.phase==="look"){
+    sh.innerHTML = `
+      <p class="prompt">Schau das Wort ganz genau an. Achte auf jeden Buchstaben.</p>
+      <div class="wordline"><p class="word">${esc(w)}</p>${sayBtn("say","Wort vorlesen")}</div>
+      <p class="hint">Tipp: Gross oder klein? Doppelte Buchstaben? Schwierige Stellen?</p>
+      <div class="row"><button class="btn" id="go">Ich habe es mir gemerkt ›</button></div>`;
+    $("say").onclick=()=>speak(w,f);
+    if(f==="en") speak(w,"en");   // englisches Wort gleich einmal vorlesen
+    $("go").onclick = () => { S.phase = data.opts.copy ? "copy" : "write"; render(); };
+    focusId("go");
+  }
+  else if(S.phase==="copy"){
+    sh.innerHTML = `
+      <p class="prompt">Schreib das Wort einmal ab.</p>
+      <p class="word small">${esc(w)}</p>
+      ${entry("e1","Abschreiben",f)}
+      <div id="fb"></div>
+      <div class="row"><button class="btn" id="go">Fertig ›</button></div>`;
+    const go = () => {
+      const v=$("e1").value;
+      if(!v.trim()) return focusId("e1");
+      if(same(v,w)){ S.phase="write"; render(); }
+      else { $("fb").innerHTML = `<div class="msg bad">Noch nicht ganz. Schau genau hin: <span style="font-family:var(--f-word)">${align(v,w).typedHtml}</span></div>`; $("e1").select(); }
+    };
+    $("go").onclick=go; onEnter("e1",go); focusId("e1");
+  }
+  else if(S.phase==="write"){
+    const blanks = data.opts.len ? [...w].map(c=>c===" "?" ":"_").join(" ") : "? ? ?";
+    sh.innerHTML = `
+      <p class="prompt">Jetzt ohne Hilfe! Schreib das Wort aus dem Kopf.</p>
+      <p class="hidden-word" aria-hidden="true">${blanks}</p>
+      ${entry("e1",LANGNAME[f],f)}
+      <div class="row">
+        <button class="btn" id="go">Prüfen ✓</button>
+        <button class="btn ghost" id="peek">Nochmals anschauen</button>
+      </div>`;
+    const go = () => { const v=$("e1").value; if(!v.trim()) return focusId("e1"); check([{label:LANGNAME[f], typed:v, right:w}]); };
+    $("go").onclick=go; onEnter("e1",go);
+    $("peek").onclick=()=>{ markPeek(it); S.phase="look"; render(); };
+    focusId("e1");
+  }
+  else renderResult(sh, it);
+}
+
+/* Hören: englisches Wort hören, englisch und deutsch schreiben */
+function renderListen(sh, it){
+  sh.innerHTML = `
+    <p class="prompt">Hör gut zu! Du siehst das Wort nicht. Schreib es auf Englisch und auf Deutsch.</p>
+    <div class="row">
+      <button class="btn" id="say">${ICON_SPEAK} Nochmals hören</button>
+      <button class="btn ghost" id="show" hidden>Wort zeigen</button>
+    </div>
+    <p class="msg wait" id="speak-status" hidden></p>
+    <p class="hint" id="voice-info" hidden></p>
+    <p class="word small" id="shown" ${S.peeked?"":"hidden"}>${esc(it.en)}</p>
+    <p class="hint" id="nospeech" hidden>Dein Browser kann leider nicht vorlesen. Klick auf «Wort zeigen».</p>
+    ${entry("e1","Englisch","en")}
+    ${entry("e2","Deutsch","de")}
+    <div class="row"><button class="btn" id="go">Prüfen ✓</button></div>`;
+  const noSpeech = () => { $("nospeech").hidden=false; $("show").hidden=false; };
+  // Beim Hören etwas langsamer und deutlicher
+  const play = () => { if(!speak(it.en,"en",Math.min(data.opts.rate||0.85, 0.78),data.opts.twice?2:1)) noSpeech(); };
+  $("say").onclick=()=>{ play(); focusId("e1"); };
+  $("show").onclick=()=>{ markPeek(it); S.peeked=true; $("shown").hidden=false; };
+  const go = () => {
+    const a=$("e1").value, b=$("e2").value;
+    if(!a.trim()) return focusId("e1");
+    if(!b.trim()) return focusId("e2");
+    check([{label:"Englisch", typed:a, right:it.en},{label:"Deutsch", typed:b, right:it.de}]);
+  };
+  onEnter("e1",()=>focusId("e2")); onEnter("e2",go); $("go").onclick=go;
+  if(!window.speechSynthesis) noSpeech();
+  if(S.autoSpeak){ S.autoSpeak=false; play(); }
+  focusId("e1");
+}
+
+/* Personen: Verben im Simple Present in alle Personen setzen */
+const VERBS = new Set(["communicate","jump","lift","find out","smell","beat","preserve","remove","kick","look after","warn","go for a walk",
+  "go","come","run","swim","read","write","sing","play","help","eat","drink","sleep","walk","talk","speak","listen","watch","learn","work","live","like","love","want","need","know","think","see","look","hear","make","do","have","fly","cry","try","carry","wash","fix","miss","teach","catch","push","open","close","start","stop","climb","ride","drive","cook","clean","draw","paint","ask","answer","call","visit","buy","sell","give","take","bring","tell","say","find","lose","win","meet","wait","stay","move","feel","touch","laugh","smile","build","grow","change","use","show","explain","describe","produce","protect","mark"]);
+function isVerb(it){ const e=(it.en||"").toLowerCase().trim(); return VERBS.has(e) || /^to\s+/.test(e); }
+const PERSONS = ["I","you","he","she","it","we","they"];
+function thirdPerson(phrase){
+  const parts=phrase.trim().replace(/^to\s+/i,"").split(/\s+/), w=parts[0];
+  let f;
+  if(w==="have") f="has";
+  else if(w==="be") f="is";
+  else if(/(s|sh|ch|x|z|o)$/.test(w)) f=w+"es";        // go → goes, watch → watches
+  else if(/[^aeiou]y$/.test(w)) f=w.slice(0,-1)+"ies"; // fly → flies
+  else f=w+"s";                                       // warn → warns
+  return [f, ...parts.slice(1)].join(" ");
+}
+function conjugate(en, p){
+  const base=en.trim().replace(/^to\s+/i,"");
+  if(base==="be") return {I:"am",you:"are",he:"is",she:"is",it:"is",we:"are",they:"are"}[p];
+  return ["he","she","it"].includes(p) ? thirdPerson(base) : base;
+}
+function renderPersons(sh, it){
+  const base=it.en.trim().replace(/^to\s+/i,"");
+  sh.innerHTML = `
+    <p class="prompt">Setz das Verb in alle Personen (Simple Present).</p>
+    <span class="lang">Verb</span>
+    <div class="wordline"><p class="word small">to ${esc(base)}</p>${sayBtn("say","Verb vorlesen")}</div>
+    <p class="hint">= ${esc(it.de)}</p>
+    <div class="conj">
+      ${PERSONS.map((p,i)=>`<label for="p${i}">${p}</label><input class="entry conj-in" id="p${i}" type="text" lang="en-GB" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">`).join("")}
+    </div>
+    <p class="hint">Tipp: Bei <b>he, she, it</b> – das <b>s</b> muss mit!</p>
+    <div class="row"><button class="btn" id="go">Prüfen ✓</button></div>`;
+  $("say").onclick=()=>speak(base,"en");
+  const go=()=>{
+    const empty=PERSONS.findIndex((_,i)=>!$("p"+i).value.trim());
+    if(empty>=0) return focusId("p"+empty);
+    check(PERSONS.map((p,i)=>({label:p, typed:$("p"+i).value, right:conjugate(it.en,p)})));
+  };
+  PERSONS.forEach((_,i)=>onEnter("p"+i, i<PERSONS.length-1 ? ()=>focusId("p"+(i+1)) : go));
+  $("go").onclick=go;
+  focusId("p0");
+}
+
+/* Sätze lernen: Satz anschauen und hören, dann Lücke füllen */
+function plainSentence(s){ return s.replace(/\*/g,""); }
+/* Deutsche Übersetzung der Beispielsätze (Unit 2), nach englischem Wort */
+const SENT_DE = {
+  "aggressive":"Der Hund unserer Nachbarn ist sehr aggressiv.",
+  "animal":"Meine Schwester liebt Tiere, besonders Hunde.",
+  "chemical":"Pheromone sind ein chemischer Stoff.",
+  "chimpanzee":"Schimpansen leben in grossen Familiengruppen.",
+  "communicate":"Hunde kommunizieren durch Laute und Körpersprache.",
+  "dance":"Walzer, Discofox und Tango sind alles Tanzarten.",
+  "pheromone":"Ameisen produzieren Pheromone, um Wege zu markieren.",
+  "signal":"Dieses Zeichen bedeutet «warten»!",
+  "symbol":"Rote Rosen sind ein Symbol der Liebe.",
+  "whale":"Blauwale sind die grössten Tiere der Welt.",
+  "afraid":"Hast du Angst im Dunkeln?",
+  "angry":"Meine Mutter ist immer noch zornig auf mich.",
+  "animal communication":"Er weiss viel über Tierkommunikation.",
+  "calm":"Das Meer ist heute ruhig.",
+  "cat":"Diese Katze miaut die ganze Zeit.",
+  "ear":"Elefanten haben sehr grosse Ohren.",
+  "excited":"Ich bin so aufgeregt, weil ich nach Amerika gehe!",
+  "jump":"Dann sprangen sie ins Schwimmbecken.",
+  "lift":"Kannst du diese grosse Kiste wirklich heben?",
+  "mouth":"Was hat dein Hund im Maul?",
+  "relaxed":"Ihr Musikstil ist locker.",
+  "slightly":"Ich mache mir ein wenig Sorgen wegen dieses Problems.",
+  "bee":"Heute sind viele Bienen im Garten.",
+  "find out":"Ich will herausfinden, was los ist.",
+  "scientist":"Er ist ein berühmter Wissenschaftler, der manchmal im Fernsehen ist.",
+  "slowly":"Kannst du bitte langsamer sprechen?",
+  "smell":"Ich kann diese Blumen von hier aus riechen!",
+  "beat":"Wie schnell die Bienen mit den Flügeln schlagen!",
+  "blocked":"Ich komme nicht hinein. Der Eingang ist blockiert.",
+  "busy":"Tut mir leid, ich bin gerade sehr beschäftigt.",
+  "flower":"Dieser Garten ist voller schöner Blumen.",
+  "opposite":"Dann gingen sie in entgegengesetzte Richtungen davon.",
+  "sun":"Die Sonne geht im Osten auf, nicht wahr?",
+  "apart from":"Wir haben am Festival alle berühmten Bands gesehen, abgesehen von einer.",
+  "enemy":"Ich habe keine Feinde, nur Freunde.",
+  "normally":"Normalerweise mache ich meine Hausaufgaben, sobald ich nach Hause komme.",
+  "preserve":"Ihr Hobby ist es, alte Bücher zu erhalten.",
+  "reaction":"Was war seine Reaktion, als du das gesagt hast?",
+  "remove":"Bitte entferne deine Bücher vom Tisch.",
+  "skin":"Du solltest Sonnencreme auftragen, um deine Haut zu schützen.",
+  "board game":"Manchmal spielen wir an Weihnachten Brettspiele.",
+  "decade":"Manche Leute arbeiten jahrzehntelang im gleichen Job.",
+  "emotion":"Wenn du keine Gefühle zeigst, wissen die Leute nicht, wie es dir geht.",
+  "equally":"Es ist ein Spiel, das für Jung und Alt gleichermassen schwierig ist.",
+  "forest":"In diesem Wald gibt es viele alte Bäume.",
+  "go for a walk":"Lass uns im Park einen Spaziergang machen.",
+  "quick":"Mein Cousin hilft immer schnell.",
+  "quiet":"Kannst du den Kindern sagen, dass sie ruhig sein sollen?",
+  "sign language":"Sie benutzen Zeichensprache, um mit Tieren zu kommunizieren.",
+  "suitable":"Hast du schon einen passenden Ort zum Übernachten gefunden?",
+  "the way children do":"Manche Affen lernen Sprache so, wie es Kinder machen.",
+  "well-known":"Sie ist eine bekannte Schauspielerin und sehr talentiert.",
+  "bright":"Wenn die Sonne so grell ist, brauche ich unbedingt meine Sonnenbrille.",
+  "danger":"Plastiksäcke sind eine Gefahr für wilde Tiere.",
+  "facial expression":"Schimpansen haben viele verschiedene Gesichtsausdrücke.",
+  "front leg":"Ich schaue mir jetzt das Vorderbein deiner Katze an.",
+  "horse":"Sie reitet jedes Wochenende ihr Pferd.",
+  "in an interesting way":"Dein Hund kommuniziert auf eine interessante Art!",
+  "kick":"Wenn sich ihr Pferd gut fühlt, schlägt es mit den Beinen aus.",
+  "look after":"Meine Freundin kümmert sich oft um ihre kleine Schwester.",
+  "noise":"Pst! Hast du dieses Geräusch gehört?",
+  "warn":"Warum hast du mich nicht gewarnt?"
+};
+function sentenceDe(it){ const t=SENT_DE[(it.en||"").toLowerCase()]; return t ? `<p class="translation"><span class="lang">Deutsch</span> ${esc(t)}</p>` : ""; }
+function renderSentence(sh, it){
+  const c=clozeParts(it.s);
+  if(S.phase==="look"){
+    sh.innerHTML = `
+      <p class="prompt">Lies den Satz und hör gut zu. Merk dir das blaue Wort.</p>
+      <p class="sentence">${esc(c.before)}<b>${esc(c.answer)}</b>${esc(c.after)}</p>
+      ${sentenceDe(it)}
+      <p class="hint"><b class="meaning">${esc(c.answer)}</b> = ${esc(it.de)}</p>
+      <p class="msg wait" id="speak-status" hidden></p>
+      <div class="row">
+        <button class="btn" id="go">Ich habe ihn mir gemerkt ›</button>
+        <button class="btn ghost" id="say">${ICON_SPEAK} Nochmals hören</button>
+      </div>`;
+    $("say").onclick=()=>speak(plainSentence(it.s),"en");
+    $("go").onclick=()=>{ S.phase="write"; render(); };
+    speak(plainSentence(it.s),"en");
+    focusId("go");
+    return;
+  }
+  // Beim Schreiben ist es still: laufendes Vorlesen sofort stoppen
+  try{ clearTimeout(speakTimer); if(window.speechSynthesis) speechSynthesis.cancel(); }catch(e){}
+  const w=Math.max(c.answer.length+2, 6);
+  sh.innerHTML = `
+    <p class="prompt">Welches Wort fehlt? Schreib es in die Lücke.</p>
+    <p class="sentence">${esc(c.before)}<input class="gap" id="e1" type="text" style="width:${w}ch" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" lang="en-GB" aria-label="Lücke"> <span class="gap-hint">(${esc(it.de)})</span>${esc(c.after)}</p>
+    ${sentenceDe(it)}
+    <div class="row">
+      <button class="btn" id="go">Prüfen ✓</button>
+      <button class="btn ghost" id="peek">Nochmals anschauen</button>
+    </div>`;
+  const go=()=>{ const v=$("e1").value; if(!v.trim()) return focusId("e1"); check([{label:"Lücke", typed:v, right:c.answer}]); };
+  $("go").onclick=go; onEnter("e1",go);
+  $("peek").onclick=()=>{ markPeek(it); S.phase="look"; render(); };
+  focusId("e1");
+}
+
+/* Übersetzen: EN→DE oder DE→EN */
+function renderTranslate(sh, it){
+  const from = S.mode==="en-de" ? "en" : "de", to = from==="en" ? "de" : "en";
+  sh.innerHTML = `
+    <p class="prompt">Wie heisst das auf ${LANGNAME[to]}?</p>
+    <span class="lang">${LANGNAME[from]}</span>
+    <div class="wordline"><p class="word">${esc(it[from])}</p>${sayBtn("say","Wort vorlesen")}</div>
+    ${entry("e1",LANGNAME[to],to)}
+    <div class="row"><button class="btn" id="go">Prüfen ✓</button></div>`;
+  $("say").onclick=()=>speak(it[from],from);
+  if(from==="en") speak(it.en,"en");   // englisches Wort gleich einmal vorlesen
+  const go = () => { const v=$("e1").value; if(!v.trim()) return focusId("e1"); check([{label:LANGNAME[to], typed:v, right:rightFor(it,to)}]); };
+  $("go").onclick=go; onEnter("e1",go); focusId("e1");
+}
+
+/* ---------- Test: alle Wörtli, drei Teile, Punkte und Note ---------- */
+const PART_NAMES = {listen:"Teil 1: Hören", translate:"Teil 2: Übersetzen", pic:"Teil 3: Bilder", cloze:"Teil 4: Lückentext"};
+function clozeParts(s){ const m=s.match(/^(.*?)\*([^*]+)\*(.*)$/); return m ? {before:m[1], answer:m[2], after:m[3]} : null; }
+function renderCloze(sh, t){
+  const rows = t.list.map((it,i)=>{
+    const c=clozeParts(it.s);
+    const w=Math.max(c.answer.length+2, 6);
+    return `<li>${esc(c.before)}<input class="gap" id="g${i}" type="text" style="width:${w}ch" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" lang="en-GB" aria-label="Lücke ${i+1}"> <span class="gap-hint">(${esc(it.de)})</span>${esc(c.after)}</li>`;
+  }).join("");
+  sh.innerHTML = `<span class="lang">${PART_NAMES.cloze}</span>
+    <p class="prompt">Füll die Lücken mit dem englischen Wort. In Klammern steht, was es auf Deutsch heisst. Achte auf die Form, zum Beispiel Mehrzahl (animal → animals).</p>
+    <ol class="cloze">${rows}</ol>
+    <div class="row"><button class="btn" id="go">Test abgeben ✓</button></div>`;
+  const go=()=>{
+    const parts = t.list.map((it,i)=>{
+      const c=clozeParts(it.s), typed=$("g"+i).value;
+      const ok = !!typed.trim() && same(typed, c.answer);
+      const st = data.stats[keyOf(it)] || (data.stats[keyOf(it)]={ok:0,bad:0}); ok ? st.ok++ : st.bad++;
+      return {label:"Lücke", typed, right:c.answer, ok, it, c};
+    });
+    save();
+    S.results.push({task:t, parts}); markLearned();
+    S.idx++; render();
+  };
+  t.list.forEach((_,i)=> onEnter("g"+i, i<t.list.length-1 ? ()=>focusId("g"+(i+1)) : go));
+  $("go").onclick=go;
+  focusId("g0");
+}
+function startTest(){
+  const items = eligible(mode());
+  // Jedes Wort kommt genau einmal vor: ein Teil als Bild, der Rest abwechselnd Hören und Übersetzen
+  const mixed = shuffle(items.slice());
+  const picMax = Math.max(1, Math.round(items.length/3));
+  const pic=[], rest=[];
+  mixed.forEach(it=>{ if(pictureFor(it) && pic.length<picMax) pic.push(it); else rest.push(it); });
+  const listen=[], trans=[];
+  rest.forEach((it,i)=> (i%2===0 ? listen : trans).push(it));
+  const tasks = [];
+  listen.forEach(it=>tasks.push({type:"listen", it}));
+  trans.forEach(it=>tasks.push({type:"translate", it, dir: Math.random()<.5 ? "en-de" : "de-en"}));
+  pic.forEach(it=>tasks.push({type:"pic", it}));
+  // Am Schluss: Lückentext mit bis zu 10 Sätzen
+  const cloze = shuffle(items.filter(it=>it.s && /\*[^*]+\*/.test(it.s))).slice(0,10);
+  if(cloze.length) tasks.push({type:"cloze", list:cloze, it:cloze[0]});
+  S = { mode:"test", spell:false, total:items.length, tasks, idx:0, results:[], phase:"test", queue:items.slice(), noPic:[] };
+  render();
+}
+function renderTest(sh){
+  if(S.idx>=S.tasks.length) return renderTestEnd(sh);
+  const t=S.tasks[S.idx], it=t.it, prev=S.idx>0 ? S.tasks[S.idx-1].type : null;
+  if(t.type==="cloze") return renderCloze(sh, t);
+  const intro = t.type!==prev ? `<span class="lang">${PART_NAMES[t.type]}</span>` : "";
+  let body="", fields=[];
+  if(t.type==="listen"){
+    body = `${intro}
+      <p class="prompt">Hör gut zu und schreib das Wort auf Englisch und auf Deutsch.</p>
+      <div class="row"><button class="btn" id="say">${ICON_SPEAK} Nochmals hören</button></div>
+      <p class="msg wait" id="speak-status" hidden></p>
+      <p class="hint" id="voice-info" hidden></p>
+      ${entry("e1","Englisch","en")}${entry("e2","Deutsch","de")}`;
+    fields=[{id:"e1",label:"Englisch",right:it.en},{id:"e2",label:"Deutsch",right:it.de}];
+  } else if(t.type==="translate"){
+    const from = t.dir==="en-de" ? "en" : "de", to = from==="en" ? "de" : "en";
+    body = `${intro}
+      <p class="prompt">Wie heisst das auf ${LANGNAME[to]}?</p>
+      <span class="lang">${LANGNAME[from]}</span>
+      <p class="word">${esc(it[from])}</p>
+      ${entry("e1",LANGNAME[to],to)}`;
+    fields=[{id:"e1",label:LANGNAME[to],right:rightFor(it,to)}];
+  } else {
+    body = `${intro}
+      <p class="prompt">Was ist auf dem Bild? Schreib das Wort auf Englisch darunter.</p>
+      <div class="pic" role="img" aria-label="Bild">${esc(pictureFor(it))}</div>
+      ${entry("e1","Englisch","en")}`;
+    fields=[{id:"e1",label:"Englisch",right:it.en}];
+  }
+  sh.innerHTML = body + `<div class="row"><button class="btn" id="go">${S.idx===S.tasks.length-1?"Test abgeben ✓":"Weiter ›"}</button></div>`;
+  if(t.type==="listen"){
+    const play=()=>speak(it.en,"en",Math.min(data.opts.rate||0.85,0.78));
+    $("say").onclick=()=>{ play(); focusId("e1"); };
+    play();
+  }
+  const go=()=>{
+    const parts = fields.map(f=>{ const typed=$(f.id).value; return {label:f.label, typed, right:f.right, ok: !!typed.trim() && same(typed,f.right)}; });
+    const st = data.stats[keyOf(it)] || (data.stats[keyOf(it)]={ok:0,bad:0});
+    parts.forEach(p=> p.ok ? st.ok++ : st.bad++); save();
+    S.results.push({task:t, parts}); markLearned();
+    S.idx++; render();
+  };
+  fields.forEach((f,i)=> onEnter(f.id, i<fields.length-1 ? ()=>focusId(fields[i+1].id) : go));
+  $("go").onclick=go;
+  focusId("e1");
+}
+function swissGrade(p, max){ if(!max) return 0; return Math.round((1 + 5*p/max)*2)/2; }
+function renderTestEnd(sh){
+  let pts=0, max=0;
+  S.results.forEach(r=>r.parts.forEach(p=>{ max++; if(p.ok) pts++; }));
+  const grade = swissGrade(pts,max);
+  const praise = grade>=5.5 ? "Super, fast alles richtig!" : grade>=4.5 ? "Gut gemacht!" : grade>=4 ? "Genügend. Übe die roten Wörtli nochmals." : "Übe die roten Wörtli nochmals, dann klappt es.";
+  const groups = ["listen","translate","pic","cloze"].map(type=>{
+    const rs=S.results.filter(r=>r.task.type===type); if(!rs.length) return "";
+    const p=rs.reduce((a,r)=>a+r.parts.filter(x=>x.ok).length,0), m=rs.reduce((a,r)=>a+r.parts.length,0);
+    const rows = type==="cloze" ? rs[0].parts.map(x=>{
+      const ans = x.ok ? `<span class="good">${esc(x.right)} ✓</span>`
+        : `<span>${x.typed.trim()?align(x.typed,x.right).typedHtml:"<em>leer</em>"} → <b class="right">${esc(x.right)}</b></span>`;
+      return `<li><span class="a">${esc(x.c.before)}${ans}${esc(x.c.after)}</span></li>`;
+    }).join("") : rs.map(r=>{
+      const head = type==="pic" ? `<span class="pic-sm">${esc(pictureFor(r.task.it))}</span>` : type==="listen" ? `🔊 ${esc(r.task.it.en)}` : esc(r.task.dir==="en-de"?r.task.it.en:r.task.it.de);
+      const cells = r.parts.map(x=> x.ok
+        ? `<span class="good">${esc(x.right)} ✓</span>`
+        : `<span>${x.typed.trim()?align(x.typed,x.right).typedHtml:"<em>leer</em>"} → <b class="right">${esc(x.right)}</b></span>`).join(" · ");
+      return `<li><span class="q">${head}</span><span class="a">${cells}</span></li>`;
+    }).join("");
+    return `<div class="part"><h3>${PART_NAMES[type]} <small>${p} / ${m} Punkte</small></h3><ul class="review">${rows}</ul></div>`;
+  }).join("");
+  const wrongItems = [...new Set(S.results.flatMap(r=> r.task.type==="cloze" ? r.parts.filter(x=>!x.ok).map(x=>x.it) : (r.parts.some(x=>!x.ok) ? [r.task.it] : [])))];
+  sh.innerHTML = `
+    <p class="prompt">Test fertig!</p>
+    <div class="score"><div><p class="big">${pts} / ${max}</p><p class="hint">Punkte</p></div><div><p class="big">${grade.toFixed(1)}</p><p class="hint">Note</p></div></div>
+    <div class="msg ${grade>=4?"ok":"bad"}">${praise}</div>
+    ${groups}
+    ${S.noPic.length ? `<p class="hint">Ohne Bild, darum nicht in Teil 3: ${S.noPic.map(it=>esc(it.en)).join(", ")}. Du kannst in «Meine Wörtli» selber ein Bild dazuschreiben.</p>` : ""}
+    <div class="row">
+      ${wrongItems.length ? `<button class="btn" id="practice-wrong">Fehler üben (${wrongItems.length})</button>` : ""}
+      <button class="btn ${wrongItems.length?"ghost":""}" id="again">Test nochmals machen</button>
+    </div>`;
+  $("again").onclick=()=>startTest();
+  if(wrongItems.length) $("practice-wrong").onclick=()=>{ data.opts.mode="spell-en"; save(); renderModes(); startRound(wrongItems.filter(it=>it.en)); };
+  setProgress();
+}
+
+function markPeek(it){ const k=keyOf(it); if(!(k in S.firstTry)) S.firstTry[k]=false; }
+
+function check(parts){
+  const it=current(), k=keyOf(it);
+  parts.forEach(p=>p.ok=same(p.typed,p.right));
+  const ok = parts.every(p=>p.ok);
+  cheer(ok);
+  if(!(k in S.firstTry)) S.firstTry[k]=ok;
+  const st = data.stats[k] || (data.stats[k]={ok:0,bad:0});
+  if(ok){ st.ok++; S.done.add(k); } else { st.bad++; S.mistakes[k]=(S.mistakes[k]||0)+1; }
+  save();
+  S.last={ok, parts}; S.phase="result"; render();
+}
+
+/* ---------- Motivation: Serie 🔥, Sterne ⭐, Konfetti, Lob ---------- */
+let streak = 0;
+function todayKey(){ const d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+function starsToday(){ return (data.daily && data.daily.date===todayKey()) ? data.daily.stars : 0; }
+/* Kuh-Level nach allen Sternen */
+const LEVELS = [
+  {n:"Kälbli", i:"🐮", min:0}, {n:"Rind", i:"🐄", min:25}, {n:"Glöggli-Kuh", i:"🔔", min:75},
+  {n:"Alp-Kuh", i:"🏔️", min:150}, {n:"Stern-Kuh", i:"⭐", min:300}, {n:"Kuh-Königin", i:"👑", min:500}
+];
+const DAY_GOAL = 20;
+function levelIndex(total){ let k=0; LEVELS.forEach((l,i)=>{ if(total>=l.min) k=i; }); return k; }
+function updateHud(bumpId){
+  $("streak-n").textContent = streak;
+  const st=starsToday();
+  $("stars-n").textContent = st;
+  $("ring-fg").style.strokeDashoffset = 94.25*(1-Math.min(1, st/DAY_GOAL));
+  $("hud-stars").classList.toggle("goal", st>=DAY_GOAL);
+  const total=data.totalStars||0, li=levelIndex(total), L=LEVELS[li], N=LEVELS[li+1];
+  $("lvl-icon").textContent=L.i; $("lvl-name").textContent=L.n;
+  $("lvl-fill").style.width = N ? Math.round((total-L.min)/(N.min-L.min)*100)+"%" : "100%";
+  $("hud-level").title = N ? `Dein Kuh-Level · noch ${N.min-total} ⭐ bis ${N.n} ${N.i}` : "Höchstes Level erreicht!";
+  $("hud-sound").textContent = data.opts.bell===false ? "🔕" : "🔔";
+  $("hud-sound").classList.toggle("off", data.opts.bell===false);
+  $("hud-streak").classList.toggle("hot", streak>=3);
+  if(bumpId){ const el=$(bumpId); el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
+}
+const reduceMotion = (()=>{ try{ return matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } })();
+function confettiBurst(){
+  if(reduceMotion) return;
+  const sh=$("sheet"); const r=sh.getBoundingClientRect();
+  const x=r.left+r.width/2, y=r.top+Math.min(r.height*0.35, 180);
+  const colors=["#0b2a6f","#2b6fd6","#4aa8ff","#9fd0ff","#ffd23f","#ffffff"];
+  for(let i=0;i<32;i++){
+    const c=document.createElement("span"); c.className="confetti";
+    const ang=Math.random()*Math.PI*2, dist=120+Math.random()*180;
+    c.style.left=x+"px"; c.style.top=y+"px"; c.style.background=colors[i%colors.length];
+    c.style.setProperty("--dx", Math.cos(ang)*dist+"px");
+    c.style.setProperty("--dy", (Math.sin(ang)*dist*0.6+160+Math.random()*120)+"px");
+    c.style.setProperty("--rot", (Math.random()*720-360)+"deg");
+    document.body.appendChild(c); setTimeout(()=>c.remove(), 1400);
+  }
+}
+let toastTimer=null;
+function showToast(text){
+  let t=document.getElementById("toast");
+  if(!t){ t=document.createElement("div"); t.id="toast"; t.className="toast"; t.setAttribute("role","status"); document.body.appendChild(t); }
+  t.textContent=text; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove("show"), 2000);
+}
+const STREAK_PRAISE = {3:"🔥 3 richtig hintereinander!", 5:"🚀 5 in Folge – stark!", 10:"🏆 10 in Folge – Wahnsinn!", 15:"🌟 15 in Folge – du bist ein Profi!", 20:"👑 20 in Folge – unschlagbar!"};
+/* Kuhglocke: kurzer, heller Glockenklang (selbst erzeugt, kein Download) */
+let bellCtx=null;
+function cowbell(){
+  if(data.opts.bell===false) return;
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return;
+    bellCtx = bellCtx || new AC(); if(bellCtx.state==="suspended") bellCtx.resume();
+    const t=bellCtx.currentTime, out=bellCtx.createGain(), bp=bellCtx.createBiquadFilter();
+    bp.type="bandpass"; bp.frequency.value=1900; bp.Q.value=1.2;
+    out.gain.setValueAtTime(0.0001,t); out.gain.exponentialRampToValueAtTime(0.35,t+0.005); out.gain.exponentialRampToValueAtTime(0.0001,t+0.7);
+    [562, 845].forEach(f=>{ const o=bellCtx.createOscillator(); o.type="square"; o.frequency.value=f; o.connect(bp); o.start(t); o.stop(t+0.75); });
+    bp.connect(out); out.connect(bellCtx.destination);
+  }catch(e){}
+}
+/* ---------- Lern-Rhythmus: spätestens alle 2 Tage lernen ---------- */
+const WEEKDAYS=["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];
+const WD_SHORT=["So","Mo","Di","Mi","Do","Fr","Sa"];
+function isoDay(d){ d=d||new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function dayNum(iso){ const [y,m,d]=iso.split("-").map(Number); return Math.round(Date.UTC(y,m-1,d)/864e5); }
+function markLearned(){
+  const t=isoDay(); data.learnDays = data.learnDays || [];
+  if(!data.learnDays.includes(t)){ data.learnDays.push(t); data.learnDays=data.learnDays.slice(-120); save(); renderRhythm(); }
+}
+function rhythmSeries(){
+  // wie oft hintereinander höchstens 2 Tage Pause (zählt Lerntage)
+  const days=(data.learnDays||[]).map(dayNum).sort((a,b)=>a-b); if(!days.length) return 0;
+  const today=dayNum(isoDay()); if(today-days[days.length-1]>2) return 0;
+  let n=1; for(let i=days.length-1;i>0;i--){ if(days[i]-days[i-1]<=2) n++; else break; } return n;
+}
+function renderRhythm(){
+  const el=$("rhythm"); const days=data.learnDays||[];
+  const today=dayNum(isoDay()), set=new Set(days.map(dayNum));
+  // die letzten 7 Tage als kleine Kästchen
+  const boxes=[...Array(7)].map((_,k)=>{ const n=today-6+k, d=new Date(n*864e5); return `<span class="${set.has(n)?"on":""} ${n===today?"today":""}" title="${WEEKDAYS[d.getUTCDay()]}">${WD_SHORT[d.getUTCDay()]}</span>`; }).join("");
+  el.classList.remove("due","late");
+  let ic, main, sub;
+  const series=rhythmSeries();
+  if(!days.length){ ic="📅"; main="Lerne mindestens alle 2 Tage!"; sub="Fang heute an – jedes richtige Wort zählt als Lerntag."; }
+  else{
+    const last=Math.max(...days.map(dayNum)), gap=today-last, due=new Date((last+2)*864e5);
+    if(gap===0){ ic="✅"; main="Heute gelernt – super!"; sub=`Nächster Lerntag: spätestens ${WEEKDAYS[due.getUTCDay()]}.`; }
+    else if(gap===1){ ic="📅"; main="Gestern gelernt."; sub=`Spätestens morgen (${WEEKDAYS[due.getUTCDay()]}) wieder lernen!`; }
+    else if(gap===2){ ic="⏰"; main="Heute ist Lerntag!"; sub="Lerne heute, sonst reisst deine Lern-Serie."; el.classList.add("due"); }
+    else { ic="😮"; main=`Du hast seit ${gap} Tagen nicht gelernt!`; sub="Los geht's – heute startest du eine neue Lern-Serie."; el.classList.add("late"); }
+    if(series>1 && gap<=2) sub += ` 🗓️ Lern-Serie: ${series} Lerntage im Rhythmus.`;
+  }
+  el.innerHTML=`<span class="ic">${ic}</span><span class="txt">${main}<small>${sub}</small></span><span class="days" aria-label="Letzte 7 Tage">${boxes}</span>`;
+  el.hidden=false;
+}
+
+/* Fenster «Wie weit bin ich?» beim Level-Knopf */
+function renderLevelPop(){
+  const total=data.totalStars||0, li=levelIndex(total), L=LEVELS[li], N=LEVELS[li+1];
+  const pct = N ? Math.round((total-L.min)/(N.min-L.min)*100) : 100;
+  $("lvlpop").innerHTML = `
+    <div class="lvl-now"><span class="big-ic">${L.i}</span><div><h3>${esc(L.n)}</h3><p>${total} ${total===1?"Wort":"Wörter"} richtig</p></div></div>
+    <div class="lvl-next">
+      <span>${N ? `Noch <b>${N.min-total}</b> richtige Wörter bis <b>${esc(N.n)} ${N.i}</b>` : "Du hast das höchste Level! 👑"}</span>
+      <div class="track"><span style="width:${pct}%"></span></div>
+    </div>
+    <ul class="lvl-list">
+      ${LEVELS.map((x,i)=>`<li class="${i<li?"done":i===li?"now":"locked"}"><span class="ic">${x.i}</span><span class="nm">${esc(x.n)}</span><span class="st">${i<li?"✓ geschafft":i===li?"👉 hier bist du":"🔒 ab "+x.min}</span></li>`).join("")}
+    </ul>
+    <button class="btn ghost close" type="button" id="lvl-close">Schliessen</button>`;
+  $("lvl-close").onclick=()=>toggleLevelPop(false);
+}
+function toggleLevelPop(open){
+  const pop=$("lvlpop"); open = open===undefined ? pop.hidden : open;
+  if(open) renderLevelPop();
+  pop.hidden=!open; $("hud-level").setAttribute("aria-expanded", open);
+}
+$("hud-level").onclick=(e)=>{ e.stopPropagation(); toggleLevelPop(); };
+document.addEventListener("click", e=>{ const pop=$("lvlpop"); if(!pop.hidden && !pop.contains(e.target)) toggleLevelPop(false); });
+document.addEventListener("keydown", e=>{ if(e.key==="Escape" && !$("lvlpop").hidden){ toggleLevelPop(false); $("hud-level").focus(); } });
+$("hud-sound").onclick=()=>{ data.opts.bell = data.opts.bell===false; save(); updateHud(); if(data.opts.bell) cowbell(); };
+function cheer(ok){
+  markLearned();
+  if(ok){
+    streak++;
+    if(!data.daily || data.daily.date!==todayKey()) data.daily={date:todayKey(), stars:0};
+    const before=levelIndex(data.totalStars||0);
+    data.daily.stars++; data.totalStars=(data.totalStars||0)+1; save();
+    const after=levelIndex(data.totalStars);
+    updateHud("hud-stars"); if(streak>1) updateHud("hud-streak");
+    cowbell();
+    confettiBurst();
+    if(after>before){ updateHud("hud-level"); setTimeout(confettiBurst, 250); showToast(`🎉 Neues Level: ${LEVELS[after].n} ${LEVELS[after].i}`); }
+    else if(STREAK_PRAISE[streak]) showToast(STREAK_PRAISE[streak]);
+  } else {
+    streak=0; updateHud();
+  }
+}
+
+/* Smileys: fröhlich bei richtig, Mut machend bei falsch */
+const SMILE_OK = ["😄","😊","🤩","🥳","😎","😁"];
+const SMILE_BAD = ["🤔","😕","🙈","😬","🫣"];
+function pickOne(list){ return list[Math.floor(Math.random()*list.length)]; }
+function renderResult(sh, it){
+  const r=S.last;
+  const partsHtml = r.parts.map(p=>{
+    if(p.ok) return `<div class="part"><dl class="cmp"><dt>${esc(p.label)}</dt><dd class="good">${esc(p.right)} ✓</dd></dl></div>`;
+    const al=align(p.typed,p.right);
+    return `<div class="part"><span class="lang">${esc(p.label)}</span><dl class="cmp"><dt>Du</dt><dd>${al.typedHtml}</dd><dt>Richtig</dt><dd class="right">${al.rightHtml}</dd></dl></div>`;
+  }).join("");
+  const showPair = !S.spell;
+  const isSent = S.mode==="sent";
+  const sentHtml = isSent ? (()=>{ const c=clozeParts(it.s); return `<p class="sentence">${esc(c.before)}<b>${esc(c.answer)}</b>${esc(c.after)}</p>${sentenceDe(it)}`; })() : "";
+  sh.innerHTML = r.ok
+    ? `<div class="smiley" role="img" aria-label="fröhlicher Smiley">${pickOne(SMILE_OK)}</div>
+       <div class="msg ok">Richtig! Super gemacht.</div>
+       ${isSent ? sentHtml : showPair ? `<p class="word small">${esc(it.en)} = ${esc(it.de)}</p>` : `<p class="word small">${esc(it[S.field])}</p>`}
+       <div class="row"><button class="btn" id="go">Nächstes Wort ›</button>${sayBtn("say","Englisch vorlesen")}</div>`
+    : `<div class="smiley" role="img" aria-label="Smiley zum Mutmachen">${pickOne(SMILE_BAD)}</div>
+       <div class="msg bad">Fast! Die roten Stellen sind anders.</div>
+       ${partsHtml}
+       ${sentHtml}
+       <p class="hint">Kein Problem: ${isSent?"Dieser Satz kommt":"Dieses Wort kommt"} gleich nochmals dran und am Schluss noch einmal.</p>
+       <div class="row"><button class="btn" id="go">Weiter ›</button>${sayBtn("say","Vorlesen")}</div>`;
+  const sayLang = S.spell ? S.field : "en";
+  const sayText = isSent ? plainSentence(it.s) : it[sayLang];
+  $("say").onclick=()=>speak(sayText, sayLang);
+  if(!sayText) $("say").hidden=true;
+  // Bei der Lösung das englische Wort (oder den Satz) einmal vorlesen (beim Hören kennst du es schon)
+  else if(sayLang==="en" && S.mode!=="listen" && !isSent) speak(sayText,"en");
+  $("go").onclick=()=>{
+    if(r.ok) S.queue.shift();
+    else {
+      // falsch: gleich nochmals (bleibt vorne) und einmal zusätzlich am Schluss zum Wiederholen
+      const k=keyOf(it); S.endAgain = S.endAgain || new Set();
+      if(!S.endAgain.has(k)){ S.endAgain.add(k); S.queue.push(it); }
+    }
+    S.phase = (S.spell || isSent) ? "look" : "write"; S.peeked=false; S.autoSpeak = S.mode==="listen";
+    render();
+  };
+  focusId("go");
+}
+
+function renderEnd(){
+  const sh=$("sheet");
+  const done=S.queue.length===0 ? [...S.done] : [];
+  const byKey={}; data.items.forEach(it=>byKey[keyOf(it)]=it);
+  const ok=done.filter(k=>S.firstTry[k]).length;
+  const hard=done.filter(k=>!S.firstTry[k]).map(k=>byKey[k]).filter(Boolean);
+  const label = it => S.spell ? it[S.field] : `${it.en} = ${it.de}`;
+  sh.innerHTML = `
+    <p class="prompt">Geschafft! Alle Wörtli sind fertig.</p>
+    <p class="big">${ok} von ${S.total}</p>
+    <p class="hint">beim ersten Mal richtig</p>
+    ${hard.length ? `<ul class="results">${hard.map(it=>{const k=keyOf(it); return `<li>${esc(label(it))} <small>${S.skipped&&S.skipped.has(k)?"übersprungen":S.mistakes[k]?S.mistakes[k]+"× falsch":"nochmals angeschaut"}</small></li>`;}).join("")}</ul>` : `<div class="msg ok">Alles beim ersten Mal richtig!</div>`}
+    <div class="row">
+      ${hard.length ? `<button class="btn" id="again-hard">Nur die schwierigen üben (${hard.length})</button>` : ""}
+      <button class="btn ${hard.length?"ghost":""}" id="again">Alle nochmals üben</button>
+    </div>`;
+  if(hard.length) $("again-hard").onclick=()=>startRound(hard);
+  $("again").onclick=()=>startRound();
+}
+
+/* ---------- Liste ---------- */
+function itemsToText(items){ return items.map(it=> it.en ? `${it.de} = ${it.en}${it.pic?` = ${it.pic}`:""}${it.s?` = ${it.s}`:""}` : it.de).join("\n"); }
+function fillListView(){
+  $("listname").value = data.name;
+  $("words").value = itemsToText(data.items);
+  $("example-tag").hidden = !data.isExample;
+  $("opt-copy").checked=data.opts.copy; $("opt-case").checked=data.opts.caseSens;
+  $("opt-shuffle").checked=data.opts.shuffle; $("opt-len").checked=data.opts.len;
+  loadVoices(); fillVoices();
+  renderStats();
+}
+function renderStats(){
+  $("stats").innerHTML = data.items.map(it=>{
+    const s=data.stats[keyOf(it)];
+    let pill='<span class="pill new">neu</span>';
+    if(s){ pill = s.bad===0 || s.ok>=s.bad*2 ? `<span class="pill ok">${s.ok}× richtig</span>` : `<span class="pill bad">${s.bad}× falsch</span>`; }
+    const p=pictureFor(it);
+    return `<li><span class="w">${p?p+" ":""}${esc(it.de)}${it.en?` <small>= ${esc(it.en)}</small>`:""}</span>${pill}</li>`;
+  }).join("");
+}
+function parseItems(t){
+  const seen=new Set(), out=[];
+  t.split(/\n+/).forEach(line=>{
+    line=line.trim(); if(!line) return;
+    let parts = line.split(/\s*(?:=|\t|;|\s[–-]\s)\s*/);
+    const de=(parts[0]||"").trim(), en=(parts[1]||"").trim();
+    if(!de) return;
+    const it={de,en}, k=keyOf(it);
+    // weitere Teile: Bild (Emoji) und/oder Beispielsatz mit *Wort* in Sternchen
+    parts.slice(2).map(p=>p.trim()).filter(Boolean).forEach(p=>{ if(p.includes("*")) it.s=p; else it.pic=p; });
+    if(!seen.has(k)){ seen.add(k); out.push(it); }
+  });
+  return out;
+}
+$("save").onclick=()=>{
+  const items=parseItems($("words").value);
+  if(!items.length){ $("save-msg").textContent="Schreib zuerst mindestens ein Wort in die Liste."; return; }
+  const changed = itemsToText(items)!==itemsToText(data.items);
+  data.items=items;
+  data.name=$("listname").value.trim() || "Meine Wörtli";
+  if(changed) data.isExample=false;
+  save(); updateTitle();
+  $("save-msg").textContent=`${items.length} Wörtli gespeichert.`;
+  showTab("practice"); startRound();
+};
+[["opt-copy","copy"],["opt-case","caseSens"],["opt-shuffle","shuffle"],["opt-len","len"]].forEach(([id,k])=>{
+  $(id).onchange=()=>{ data.opts[k]=$(id).checked; save(); };
+});
+let resetArmed=false;
+$("reset-stats").onclick=()=>{
+  if(!resetArmed){ resetArmed=true; $("reset-msg").textContent="Nochmals klicken zum Bestätigen."; setTimeout(()=>{resetArmed=false; $("reset-msg").textContent="";},4000); return; }
+  data.stats={}; save(); renderStats(); resetArmed=false; $("reset-msg").textContent="Zähler zurückgesetzt.";
+};
+/* Vorlese-Einstellungen */
+function fillVoices(){
+  ["en","de"].forEach(lang=>{
+    const sel=$("voice-"+lang); if(!sel) return;
+    const list=voicesFor(lang).slice().sort((a,b)=>voiceScore(b,lang)-voiceScore(a,lang));
+    const best=list[0];
+    sel.innerHTML = `<option value="">Automatisch${best?` (${esc(best.name)})`:""}</option>` +
+      list.map(v=>`<option value="${esc(v.name)}">${esc(v.name)} · ${esc(v.lang)}</option>`).join("");
+    sel.value = data.opts["voice_"+lang] || "";
+    if(sel.value!==(data.opts["voice_"+lang]||"")) sel.value="";
+    sel.disabled = !list.length;
+    if(!list.length) sel.innerHTML='<option value="">Keine Stimme gefunden</option>';
+  });
+  $("rate").value = data.opts.rate; $("rate-val").textContent = rateLabel(data.opts.rate);
+  $("opt-twice").checked = data.opts.twice;
+}
+function rateLabel(r){ r=+r; return r<=0.6?"sehr langsam":r<=0.9?"langsam":r<=1.05?"normal":"schnell"; }
+const TEST = {en:"Hello! This is your English word: butterfly.", de:"Hallo! So klingt dein deutsches Wort: Schmetterling."};
+["en","de"].forEach(lang=>{
+  $("voice-"+lang).onchange=e=>{ data.opts["voice_"+lang]=e.target.value; save(); speak(TEST[lang],lang); };
+  $("test-"+lang).onclick=()=>speak(TEST[lang],lang);
+});
+$("rate").oninput=e=>{ data.opts.rate=+e.target.value; $("rate-val").textContent=rateLabel(data.opts.rate); save(); };
+$("rate").onchange=()=>speak("butterfly","en");
+$("opt-twice").onchange=e=>{ data.opts.twice=e.target.checked; save(); };
+try{ if(window.speechSynthesis) speechSynthesis.addEventListener("voiceschanged", fillVoices); }catch(e){}
+
+function updateTitle(){ $("title").textContent = data.name && data.name!=="Beispiel-Wörtli" ? data.name : "Wörtli üben"; }
+
+/* Start der App, nachdem die Daten der Person geladen sind */
+function boot(){
+  if((data.opts.v||1)<3){ data.opts.rate=0.85; data.opts.twice=false; data.opts.v=3; }  // einmal und etwas langsamer
+  // Unit 2 einmal in die Liste einfügen (Beispiel-Wörter werden ersetzt, eigene Wörter bleiben)
+  if(!data.unit2Added){
+    const u2 = parseItems(UNIT2);
+    if(data.isExample){ data.items = u2; data.name = "Unit 2: Without words"; data.isExample = false; }
+    else { const have=new Set(data.items.map(keyOf)); u2.forEach(it=>{ if(!have.has(keyOf(it))) data.items.push(it); }); }
+    data.unit2Added = true; save();
+  }
+  // Sätze (und Bilder) aus Unit 2 bei schon gespeicherten Wörtern nachtragen
+  (()=>{ const m={}; parseItems(UNIT2).forEach(it=>m[keyOf(it)]=it); let ch=false;
+    data.items.forEach(it=>{ const u=m[keyOf(it)]; if(!u) return; if(u.s && !it.s){ it.s=u.s; ch=true; } if(u.pic && !it.pic){ it.pic=u.pic; ch=true; } });
+    if(ch) save(); })();
+  streak = 0;
+  showTab("practice");
+  updateTitle();
+  renderModes();
+  if(data.totalStars==null) data.totalStars = starsToday();   // Sterne von heute zählen schon fürs Level
+  updateHud();
+  renderRhythm();
+  startRound();
+}
+/* Schnittstelle für die Anmeldung (Web-App): start({key, data, onSave}) */
+window.WoertliApp = {
+  start(o){
+    o = o || {};
+    KEY_ACTIVE = o.key || KEY; onSaveHook = o.onSave || null;
+    let s = o.data;
+    if(s === undefined || s === null){ try{ s = JSON.parse(localStorage.getItem(KEY_ACTIVE)||"null"); }catch(e){ s = null; } }
+    loadData(s); boot();
+  },
+  current(){ return data; }
+};
+// Ohne Anmeldung (z.B. in Claude) sofort starten
+if(!window.WOERTLI_NEEDS_LOGIN) window.WoertliApp.start({});
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script>
+/* Offline-Speicher einschalten, damit die App auch ohne Internet läuft */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
+</script>
+</body>
+</html>
