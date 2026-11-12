@@ -100,37 +100,56 @@
   };
 
   /* ---------- Fortschritt laden und speichern ---------- */
+  // pending merkt sich, WEM die Daten gehören: so landet nie etwas im falschen Konto
   let user=null, saveTimer=null, pending=null;
   async function cloudSave(){
     if(!user || !pending) return;
-    const d = pending; pending = null;
-    const { error } = await sb.from("progress").upsert({ user_id:user.id, data:d, updated_at:new Date().toISOString() });
-    if(error){ pending = pending || d; }   // später nochmals versuchen
+    if(pending.uid !== user.id){ pending = null; return; }
+    const job = pending; pending = null;
+    const { error } = await sb.from("progress").upsert({ user_id:job.uid, data:job.d });
+    if(error && user && user.id===job.uid){ pending = pending || job; }   // später nochmals versuchen
   }
-  function queueSave(d){ pending = JSON.parse(JSON.stringify(d)); clearTimeout(saveTimer); saveTimer = setTimeout(cloudSave, 1500); }
+  function queueSave(d){
+    if(!user) return;
+    pending = { uid:user.id, d:JSON.parse(JSON.stringify(d)) };
+    clearTimeout(saveTimer); saveTimer = setTimeout(cloudSave, 1500);
+  }
   document.addEventListener("visibilitychange", () => { if(document.visibilityState==="hidden"){ clearTimeout(saveTimer); cloudSave(); } });
   window.addEventListener("online", () => cloudSave());
 
+  const localKey = id => "woertli-user-" + id;
   async function enter(session){
     if(user && user.id===session.user.id && !document.body.classList.contains("locked")) return;
     user = session.user;
-    const key = "woertli-user-" + user.id;
-    let cloud = null;
+    const key = localKey(user.id);
+    let cloud = null, cloudOk = false;
     try{
       const { data:row, error } = await sb.from("progress").select("data").eq("user_id", user.id).maybeSingle();
-      if(!error && row) cloud = row.data;
+      if(!error){ cloudOk = true; if(row) cloud = row.data; }
     }catch(e){}
     let local = null; try{ local = JSON.parse(localStorage.getItem(key)||"null"); }catch(e){}
     window.WoertliApp.start({ key, data: cloud || local || null, onSave: queueSave });
-    if(!cloud) queueSave(window.WoertliApp.current());   // erstes Mal: in der Cloud anlegen
+    // Nur anlegen, wenn die Cloud sicher noch nichts hat (nicht bei fehlender Verbindung: sonst würden neuere Daten überschrieben)
+    if(cloudOk && !cloud) queueSave(window.WoertliApp.current());
     showUser();
     document.body.classList.remove("locked");
+  }
+  async function logout(){
+    const id = user && user.id;
+    clearTimeout(saveTimer); await cloudSave();
+    pending = null;
+    // Daten dieses Kindes vom Gerät löschen, damit das nächste Kind sie nicht sieht
+    if(id){ try{ localStorage.removeItem(localKey(id)); }catch(e){} }
+    const { error } = await sb.auth.signOut();
+    if(error){ await sb.auth.signOut({ scope:"local" }); }   // ohne Internet: wenigstens hier abmelden
+    try{ sessionStorage.setItem("woertli-bye", "1"); }catch(e){}
+    location.reload();   // frisch starten: nichts vom vorherigen Kind bleibt im Speicher
   }
   function showUser(){
     let b = $("hud-user");
     if(!b){
       b = document.createElement("button"); b.id="hud-user"; b.type="button"; b.className="chip user";
-      b.onclick = async () => { clearTimeout(saveTimer); await cloudSave(); await sb.auth.signOut(); };
+      b.onclick = () => { b.disabled = true; logout(); };
       document.querySelector(".hud").appendChild(b);
     }
     const name = (user.user_metadata && user.user_metadata.name) || (user.email||"").split("@")[0];
@@ -138,9 +157,12 @@
     b.title = "Abmelden (" + (user.email||"") + ")";
   }
   function leave(){
+    clearTimeout(saveTimer); pending = null;
+    if(user){ try{ localStorage.removeItem(localKey(user.id)); }catch(e){} }
     user = null; document.body.classList.add("locked");
     setMode("in"); $("a-pass").value=""; msg("Du bist abgemeldet. Bis bald! 🐄");
   }
+  try{ if(sessionStorage.getItem("woertli-bye")){ sessionStorage.removeItem("woertli-bye"); msg("Du bist abgemeldet. Bis bald! 🐄"); } }catch(e){}
 
   sb.auth.onAuthStateChange((event, session) => {
     if(event==="PASSWORD_RECOVERY"){ document.body.classList.add("locked"); setMode("newpass"); msg("Wähle ein neues Passwort."); return; }

@@ -21,4 +21,10 @@ body.locked .auth{display:grid;place-items:center;position:relative;z-index:10;m
 .auth-msg.bad{color:var(--bad)}
 .auth-link{border:0;background:none;color:var(--ink);font:700 .9rem var(--f-ui);cursor:pointer;text-decoration:underline;text-underline-offset:3px;align-self:center}
 .chip.user{border:0;cursor:pointer}
+/* Hinweis «Neue Version ist da!» */
+.update-bar{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);z-index:60;
+  display:flex;align-items:center;gap:12px;padding:8px 8px 8px 18px;border-radius:999px;font:800 1rem var(--f-ui);color:var(--fg);
+  background-color:var(--glass);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:var(--shadow), 0 12px 30px rgba(11,42,111,.25);
+  max-width:calc(100vw - 32px);animation:popin .25s ease-out}
+.update-bar .btn{padding:8px 16px}
 .chip.user .out{color:var(--muted);font-weight:700}
