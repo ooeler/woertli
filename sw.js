@@ -1,6 +1,6 @@
 /* Offline-Speicher für «Wörtli üben»: die App läuft auch ohne Internet.
    Bei einer neuen Version die Nummer erhöhen, dann holt sich die App alles frisch. */
-const CACHE = "woertli-v2";
+const CACHE = "woertli-v3";
 const FILES = ["./", "./index.html", "./kuh.jpg", "./manifest.webmanifest",
                "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./auth.js", "./auth.css", "./config.js"];
 
