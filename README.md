@@ -8,7 +8,7 @@ Jedes Kind meldet sich mit eigenem Konto an; der Fortschritt wird in Supabase ge
 1. **Supabase:** Projekt erstellen, im *SQL Editor* den Inhalt von `supabase-setup.sql` ausführen.
 2. **config.js:** *Project URL* und *anon public key* (Project Settings → API) eintragen.
 3. **Supabase → Authentication → URL Configuration:** Die Adresse dieser Seite als *Site URL* eintragen
-   (z.B. `https://laurinoeler.github.io/woertli/`), damit die Links in den E-Mails stimmen.
+   (z.B. `https://ooeler.github.io/woertli/`), damit die Links in den E-Mails stimmen.
 4. **GitHub Pages:** Settings → Pages → Branch `main`, Ordner `/ (root)`.
 
 ## Dateien
